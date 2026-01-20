@@ -1,0 +1,4905 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElektroLab - Leer Elektronica</title>
+    <style>
+/* ============================================
+   ElektroLab - Elektronica Leer Simulator
+   Modern Dark Theme Styling
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent-primary: #4ecdc4;
+    --accent-secondary: #45b7aa;
+    --accent-warning: #ff6b6b;
+    --accent-success: #7bed9f;
+    --accent-yellow: #ffd93d;
+    --border-color: #30363d;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* App Container */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 280px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-icon {
+    font-size: 2rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+.nav-menu {
+    list-style: none;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.nav-item:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    transform: translateX(5px);
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: var(--bg-primary);
+    font-weight: 600;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.progress-section {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.progress-section h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-success));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 30px 40px;
+    min-height: 100vh;
+}
+
+.lesson {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.lesson-header {
+    margin-bottom: 30px;
+}
+
+.lesson-header h2 {
+    font-size: 2.2rem;
+    color: var(--accent-primary);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Intro Section */
+.intro-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.intro-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.intro-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 10px 30px rgba(78, 205, 196, 0.2);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.intro-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.intro-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.start-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.start-button {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: var(--bg-primary);
+    border: none;
+    padding: 16px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+}
+
+.intro-animation {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.intro-animation canvas {
+    border-radius: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Concept Cards */
+.concept-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.concept-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    transition: all 0.3s ease;
+}
+
+.concept-card:hover {
+    border-color: var(--accent-primary);
+}
+
+.concept-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--accent-primary);
+}
+
+.concept-card p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.unit-badge {
+    display: inline-block;
+    background: var(--bg-tertiary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--accent-yellow);
+}
+
+/* Simulation Sections */
+.simulation-section,
+.electron-flow-section,
+.ohm-calculator,
+.ohm-triangle,
+.interactive-circuit,
+.led-calculator-section,
+.led-simulator,
+.series-parallel-simulator,
+.capacitor-charging,
+.capacitor-simulator {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.simulation-section h3,
+.electron-flow-section h3,
+.ohm-calculator h3,
+.ohm-triangle h3,
+.interactive-circuit h3,
+.led-calculator-section h3,
+.led-simulator h3,
+.series-parallel-simulator h3,
+.capacitor-charging h3,
+.capacitor-simulator h3 {
+    font-size: 1.3rem;
+    color: var(--accent-primary);
+    margin-bottom: 10px;
+}
+
+.simulation-section p,
+.electron-flow-section p,
+.interactive-circuit p,
+.led-simulator p,
+.capacitor-simulator p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.simulation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+canvas {
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+}
+
+/* Controls */
+.simulation-controls,
+.circuit-controls,
+.led-controls,
+.charge-controls,
+.electron-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    width: 100%;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+input[type="range"] {
+    width: 150px;
+    height: 8px;
+    -webkit-appearance: none;
+    background: var(--bg-primary);
+    border-radius: 4px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--accent-secondary);
+}
+
+.result-display {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+.highlight {
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+/* Control Buttons */
+.control-btn {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Formula Display */
+.formula-display {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.formula-card {
+    display: inline-block;
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent-primary);
+    border-radius: 16px;
+    padding: 30px 50px;
+    margin-bottom: 20px;
+}
+
+.formula-card.main-formula .formula {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    font-family: 'Courier New', monospace;
+}
+
+.formula-explanation {
+    margin-top: 15px;
+    color: var(--text-secondary);
+}
+
+.formula-explanation .var {
+    color: var(--accent-yellow);
+    font-weight: 600;
+    margin: 0 10px;
+}
+
+.formula-variants {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.formula-card.small {
+    padding: 20px 30px;
+    border-width: 1px;
+    border-color: var(--border-color);
+}
+
+.formula-card.small .formula {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+}
+
+.formula-card.small p {
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Ohm Triangle */
+.triangle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#ohm-triangle-svg {
+    width: 250px;
+    height: 230px;
+}
+
+.triangle-text {
+    font-size: 24px;
+    font-weight: bold;
+    fill: var(--text-primary);
+    cursor: pointer;
+    transition: fill 0.2s ease;
+}
+
+.triangle-text:hover {
+    fill: var(--accent-primary);
+}
+
+.clickable-area {
+    cursor: pointer;
+}
+
+.clickable-area:hover {
+    fill: rgba(78, 205, 196, 0.2);
+}
+
+.triangle-result {
+    font-size: 1.2rem;
+    padding: 15px 25px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    color: var(--text-secondary);
+}
+
+/* Calculator */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.calc-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.calc-input label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.calc-input input {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.calc-input input:focus {
+    border-color: var(--accent-primary);
+}
+
+.calc-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.calc-buttons button {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.calc-buttons button:hover {
+    background: var(--accent-secondary);
+    transform: translateY(-2px);
+}
+
+.calc-result {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 15px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    min-height: 55px;
+}
+
+/* Live Results */
+.live-results {
+    display: flex;
+    gap: 30px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-item .label {
+    color: var(--text-secondary);
+}
+
+.result-item .value {
+    font-size: 1.2rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+/* LED Section */
+.led-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.led-info-card,
+.led-warning-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.led-warning-card {
+    border-color: var(--accent-warning);
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.led-warning-card h3 {
+    color: var(--accent-warning);
+}
+
+.led-symbol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.led-symbol svg {
+    width: 120px;
+    height: 80px;
+}
+
+.led-symbol span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.led-formula {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.led-formula .formula {
+    font-size: 1.5rem;
+    color: var(--accent-primary);
+    font-family: 'Courier New', monospace;
+}
+
+.led-calc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.led-calc-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.led-calc-input label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.led-calc-input input,
+.led-calc-input select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.led-calc-result {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 15px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+.nearest-value {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+.led-status {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+.status-item {
+    font-size: 1.1rem;
+}
+
+#led-health {
+    font-weight: 600;
+}
+
+#led-health.healthy {
+    color: var(--accent-success);
+}
+
+#led-health.warning {
+    color: var(--accent-yellow);
+}
+
+#led-health.danger {
+    color: var(--accent-warning);
+}
+
+/* Series/Parallel Section */
+.comparison-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.comparison-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.comparison-card h3 {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.circuit-diagram {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.circuit-properties {
+    list-style: none;
+}
+
+.circuit-properties li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.circuit-properties li:last-child {
+    border-bottom: none;
+}
+
+.simulator-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.resistor-inputs {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.series-results,
+.parallel-results {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.result-box {
+    background: var(--bg-primary);
+    padding: 15px 25px;
+    border-radius: 10px;
+}
+
+.result-box .label {
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.result-box .value {
+    color: var(--accent-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* Capacitor Section */
+.capacitor-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cap-info-card,
+.cap-analogy-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.cap-symbol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.cap-symbol svg {
+    width: 120px;
+    height: 80px;
+}
+
+.cap-symbol span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.charge-formula {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.charge-formula .formula {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    font-family: 'Courier New', monospace;
+}
+
+.charge-formula p {
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.tau-display {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+.cap-sim-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.cap-btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cap-btn.charge {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+}
+
+.cap-btn.discharge {
+    background: var(--accent-warning);
+    color: var(--bg-primary);
+}
+
+.cap-btn.reset {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.cap-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.cap-status {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+.voltage-meter {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.meter-bar {
+    width: 150px;
+    height: 20px;
+    background: var(--bg-primary);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.meter-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-success));
+    transition: width 0.1s ease;
+}
+
+.charge-percent {
+    font-size: 1.3rem;
+}
+
+#cap-charge-percent {
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+/* Circuit Builder */
+.builder-container {
+    display: grid;
+    grid-template-columns: 200px 1fr 250px;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.component-palette {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.component-palette h3 {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.component-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.palette-component {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.2s ease;
+}
+
+.palette-component:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-primary);
+}
+
+.palette-component:active {
+    cursor: grabbing;
+}
+
+.component-icon {
+    font-size: 1.3rem;
+    width: 30px;
+    text-align: center;
+}
+
+.builder-workspace {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#builder-canvas {
+    background: var(--bg-tertiary);
+    border: 2px dashed var(--border-color);
+    margin-bottom: 15px;
+}
+
+.builder-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.builder-btn {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.builder-btn:hover {
+    background: var(--bg-primary);
+}
+
+.builder-btn.primary {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
+
+.component-properties {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.component-properties h3 {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.no-selection {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.builder-presets {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.builder-presets h3 {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+}
+
+.preset-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preset-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Next Lesson Button */
+.next-lesson-btn {
+    display: block;
+    margin: 40px auto 0;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: var(--bg-primary);
+    border: none;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.next-lesson-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .builder-container {
+        grid-template-columns: 1fr;
+    }
+
+    .component-palette,
+    .component-properties {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+        padding: 20px;
+    }
+
+    .led-intro,
+    .capacitor-intro,
+    .comparison-section {
+        grid-template-columns: 1fr;
+    }
+
+    .calculator-grid,
+    .led-calc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding: 15px 10px;
+    }
+
+    .sidebar .logo h1,
+    .sidebar .nav-item span:not(.nav-icon),
+    .sidebar .progress-section h3,
+    .sidebar .progress-text {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 60px;
+    }
+
+    .simulation-controls,
+    .circuit-controls,
+    .led-controls {
+        flex-direction: column;
+    }
+
+    .resistor-inputs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .series-results,
+    .parallel-results,
+    .live-results {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>ElektroLab</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-lesson="intro">
+                    <span class="nav-icon">🏠</span>
+                    <span>Introductie</span>
+                </li>
+                <li class="nav-item" data-lesson="basics">
+                    <span class="nav-icon">💡</span>
+                    <span>Spanning & Stroom</span>
+                </li>
+                <li class="nav-item" data-lesson="ohm">
+                    <span class="nav-icon">Ω</span>
+                    <span>Wet van Ohm</span>
+                </li>
+                <li class="nav-item" data-lesson="led">
+                    <span class="nav-icon">🔴</span>
+                    <span>LED Circuits</span>
+                </li>
+                <li class="nav-item" data-lesson="series-parallel">
+                    <span class="nav-icon">🔗</span>
+                    <span>Serie & Parallel</span>
+                </li>
+                <li class="nav-item" data-lesson="capacitor">
+                    <span class="nav-icon">⚡</span>
+                    <span>Condensatoren</span>
+                </li>
+                <li class="nav-item" data-lesson="builder">
+                    <span class="nav-icon">🔧</span>
+                    <span>Circuit Builder</span>
+                </li>
+            </ul>
+            <div class="progress-section">
+                <h3>Voortgang</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">0% voltooid</span>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Intro Section -->
+            <section class="lesson" id="lesson-intro" style="display: block;">
+                <div class="lesson-header">
+                    <h2>Welkom bij ElektroLab!</h2>
+                    <p class="subtitle">Leer elektronica op een visuele en interactieve manier</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="intro-cards">
+                        <div class="intro-card">
+                            <div class="card-icon">📚</div>
+                            <h3>Leer de Basis</h3>
+                            <p>Begin met spanning, stroom en weerstand - de fundamenten van elektronica.</p>
+                        </div>
+                        <div class="intro-card">
+                            <div class="card-icon">🎮</div>
+                            <h3>Interactieve Simulaties</h3>
+                            <p>Experimenteer met virtuele circuits en zie direct wat er gebeurt.</p>
+                        </div>
+                        <div class="intro-card">
+                            <div class="card-icon">🎬</div>
+                            <h3>Visuele Animaties</h3>
+                            <p>Zie hoe elektronen bewegen en begrijp hoe circuits werken.</p>
+                        </div>
+                        <div class="intro-card">
+                            <div class="card-icon">🔧</div>
+                            <h3>Bouw Je Eigen Circuits</h3>
+                            <p>Gebruik de circuit builder om je eigen creaties te maken.</p>
+                        </div>
+                    </div>
+                    <div class="start-section">
+                        <button class="start-button" onclick="navigateToLesson('basics')">
+                            Start met Leren →
+                        </button>
+                    </div>
+                    <div class="intro-animation">
+                        <canvas id="intro-canvas" width="600" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Basics: Spanning & Stroom -->
+            <section class="lesson" id="lesson-basics">
+                <div class="lesson-header">
+                    <h2>Les 1: Spanning, Stroom en Weerstand</h2>
+                    <p class="subtitle">De drie fundamentele concepten van elektronica</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="concept-section">
+                        <div class="concept-card">
+                            <h3>⚡ Spanning (Voltage)</h3>
+                            <p>Spanning is de "druk" die elektronen door een circuit duwt. Denk aan water in een buis - hoe hoger het waterreservoir, hoe meer druk.</p>
+                            <div class="unit-badge">Eenheid: Volt (V)</div>
+                        </div>
+                        <div class="concept-card">
+                            <h3>💧 Stroom (Current)</h3>
+                            <p>Stroom is de hoeveelheid elektronen die per seconde door een draad stroomt. Zoals de hoeveelheid water die door een buis stroomt.</p>
+                            <div class="unit-badge">Eenheid: Ampère (A)</div>
+                        </div>
+                        <div class="concept-card">
+                            <h3>🚧 Weerstand (Resistance)</h3>
+                            <p>Weerstand is hoe moeilijk het is voor stroom om te vloeien. Zoals een smalle buis die de waterstroom beperkt.</p>
+                            <div class="unit-badge">Eenheid: Ohm (Ω)</div>
+                        </div>
+                    </div>
+
+                    <div class="simulation-section">
+                        <h3>🎬 Water-Elektriciteit Analogie</h3>
+                        <p>Klik op de knoppen om te zien hoe spanning en weerstand de stroomsterkte beïnvloeden.</p>
+                        <div class="simulation-container">
+                            <canvas id="water-canvas" width="700" height="400"></canvas>
+                            <div class="simulation-controls">
+                                <div class="control-group">
+                                    <label>Spanning (Waterhoogte)</label>
+                                    <input type="range" id="voltage-slider" min="1" max="12" value="6">
+                                    <span id="voltage-value">6V</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Weerstand (Buisdiameter)</label>
+                                    <input type="range" id="resistance-slider" min="100" max="1000" value="500">
+                                    <span id="resistance-value">500Ω</span>
+                                </div>
+                                <div class="result-display">
+                                    <span>Stroom: </span>
+                                    <span id="current-value" class="highlight">12mA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="electron-flow-section">
+                        <h3>🔬 Elektronenstroom Visualisatie</h3>
+                        <p>Zie hoe elektronen (blauwe bolletjes) door een circuit bewegen.</p>
+                        <canvas id="electron-canvas" width="700" height="300"></canvas>
+                        <div class="electron-controls">
+                            <button id="electron-play" class="control-btn">▶ Start</button>
+                            <button id="electron-pause" class="control-btn">⏸ Pauze</button>
+                            <button id="electron-speed-up" class="control-btn">⏩ Sneller</button>
+                            <button id="electron-slow-down" class="control-btn">⏪ Langzamer</button>
+                        </div>
+                    </div>
+
+                    <button class="next-lesson-btn" onclick="navigateToLesson('ohm')">
+                        Volgende Les: Wet van Ohm →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Ohm's Law -->
+            <section class="lesson" id="lesson-ohm">
+                <div class="lesson-header">
+                    <h2>Les 2: De Wet van Ohm</h2>
+                    <p class="subtitle">V = I × R - De belangrijkste formule in elektronica</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="formula-display">
+                        <div class="formula-card main-formula">
+                            <div class="formula">V = I × R</div>
+                            <div class="formula-explanation">
+                                <span class="var">V</span> = Spanning (Volt)
+                                <span class="var">I</span> = Stroom (Ampère)
+                                <span class="var">R</span> = Weerstand (Ohm)
+                            </div>
+                        </div>
+                        <div class="formula-variants">
+                            <div class="formula-card small">
+                                <div class="formula">I = V ÷ R</div>
+                                <p>Bereken stroom</p>
+                            </div>
+                            <div class="formula-card small">
+                                <div class="formula">R = V ÷ I</div>
+                                <p>Bereken weerstand</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ohm-triangle">
+                        <h3>🔺 De Ohm Driehoek</h3>
+                        <p>Klik op wat je wilt berekenen!</p>
+                        <div class="triangle-container">
+                            <svg id="ohm-triangle-svg" viewBox="0 0 200 180">
+                                <polygon points="100,10 10,170 190,170" fill="none" stroke="#4ecdc4" stroke-width="3"/>
+                                <line x1="10" y1="120" x2="190" y2="120" stroke="#4ecdc4" stroke-width="2"/>
+                                <text x="100" y="70" text-anchor="middle" class="triangle-text" id="tri-v">V</text>
+                                <text x="55" y="150" text-anchor="middle" class="triangle-text" id="tri-i">I</text>
+                                <text x="145" y="150" text-anchor="middle" class="triangle-text" id="tri-r">R</text>
+                                <circle cx="100" cy="55" r="25" fill="transparent" class="clickable-area" data-calc="v"/>
+                                <circle cx="55" cy="140" r="25" fill="transparent" class="clickable-area" data-calc="i"/>
+                                <circle cx="145" cy="140" r="25" fill="transparent" class="clickable-area" data-calc="r"/>
+                            </svg>
+                            <div class="triangle-result" id="triangle-result">
+                                Klik op V, I of R om de formule te zien
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ohm-calculator">
+                        <h3>🧮 Interactieve Calculator</h3>
+                        <div class="calculator-grid">
+                            <div class="calc-input">
+                                <label>Spanning (V)</label>
+                                <input type="number" id="calc-voltage" placeholder="Volt" step="0.1">
+                            </div>
+                            <div class="calc-input">
+                                <label>Stroom (mA)</label>
+                                <input type="number" id="calc-current" placeholder="milliAmpère" step="0.1">
+                            </div>
+                            <div class="calc-input">
+                                <label>Weerstand (Ω)</label>
+                                <input type="number" id="calc-resistance" placeholder="Ohm" step="1">
+                            </div>
+                        </div>
+                        <div class="calc-buttons">
+                            <button onclick="calculateOhm('v')">Bereken V</button>
+                            <button onclick="calculateOhm('i')">Bereken I</button>
+                            <button onclick="calculateOhm('r')">Bereken R</button>
+                        </div>
+                        <div class="calc-result" id="ohm-calc-result"></div>
+                    </div>
+
+                    <div class="interactive-circuit">
+                        <h3>🔌 Live Circuit Simulator</h3>
+                        <p>Pas de spanning en weerstand aan en zie de stroom veranderen!</p>
+                        <canvas id="ohm-circuit-canvas" width="700" height="350"></canvas>
+                        <div class="circuit-controls">
+                            <div class="control-group">
+                                <label>Batterij Spanning</label>
+                                <input type="range" id="ohm-voltage" min="1" max="24" value="9">
+                                <span id="ohm-voltage-display">9V</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Weerstand</label>
+                                <input type="range" id="ohm-resistance" min="100" max="10000" value="1000" step="100">
+                                <span id="ohm-resistance-display">1kΩ</span>
+                            </div>
+                            <div class="live-results">
+                                <div class="result-item">
+                                    <span class="label">Stroom:</span>
+                                    <span class="value" id="ohm-current-display">9mA</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="label">Vermogen:</span>
+                                    <span class="value" id="ohm-power-display">81mW</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="next-lesson-btn" onclick="navigateToLesson('led')">
+                        Volgende Les: LED Circuits →
+                    </button>
+                </div>
+            </section>
+
+            <!-- LED Circuit -->
+            <section class="lesson" id="lesson-led">
+                <div class="lesson-header">
+                    <h2>Les 3: LED Circuits</h2>
+                    <p class="subtitle">Leer hoe je een LED veilig laat branden</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="led-intro">
+                        <div class="led-info-card">
+                            <h3>💡 Wat is een LED?</h3>
+                            <p>LED staat voor <strong>Light Emitting Diode</strong> (lichtgevende diode). Een LED laat stroom maar in één richting door en produceert licht.</p>
+                            <div class="led-symbol">
+                                <svg viewBox="0 0 100 60">
+                                    <line x1="10" y1="30" x2="30" y2="30" stroke="#fff" stroke-width="2"/>
+                                    <polygon points="30,15 30,45 60,30" fill="none" stroke="#fff" stroke-width="2"/>
+                                    <line x1="60" y1="15" x2="60" y2="45" stroke="#fff" stroke-width="2"/>
+                                    <line x1="60" y1="30" x2="90" y2="30" stroke="#fff" stroke-width="2"/>
+                                    <line x1="45" y1="10" x2="55" y2="0" stroke="#ff6b6b" stroke-width="2"/>
+                                    <polygon points="55,0 50,5 55,5" fill="#ff6b6b"/>
+                                    <line x1="55" y1="15" x2="65" y2="5" stroke="#ff6b6b" stroke-width="2"/>
+                                    <polygon points="65,5 60,10 65,10" fill="#ff6b6b"/>
+                                </svg>
+                                <span>LED Symbool</span>
+                            </div>
+                        </div>
+                        <div class="led-warning-card">
+                            <h3>⚠️ Waarschuwing!</h3>
+                            <p>Een LED heeft altijd een <strong>voorschakelweerstand</strong> nodig! Zonder weerstand gaat er te veel stroom door de LED en brandt deze door.</p>
+                        </div>
+                    </div>
+
+                    <div class="led-calculator-section">
+                        <h3>🧮 LED Voorschakelweerstand Calculator</h3>
+                        <div class="led-formula">
+                            <div class="formula">R = (V<sub>bron</sub> - V<sub>LED</sub>) ÷ I<sub>LED</sub></div>
+                        </div>
+                        <div class="led-calc-grid">
+                            <div class="led-calc-input">
+                                <label>Bronspanning (V)</label>
+                                <input type="number" id="led-source-voltage" value="9" step="0.1">
+                            </div>
+                            <div class="led-calc-input">
+                                <label>LED Kleur</label>
+                                <select id="led-color">
+                                    <option value="1.8" data-color="#ff0000">Rood (1.8V)</option>
+                                    <option value="2.0" data-color="#ffaa00">Oranje (2.0V)</option>
+                                    <option value="2.1" data-color="#ffff00">Geel (2.1V)</option>
+                                    <option value="2.2" data-color="#00ff00">Groen (2.2V)</option>
+                                    <option value="3.2" data-color="#0088ff">Blauw (3.2V)</option>
+                                    <option value="3.2" data-color="#ffffff">Wit (3.2V)</option>
+                                </select>
+                            </div>
+                            <div class="led-calc-input">
+                                <label>LED Stroom (mA)</label>
+                                <input type="number" id="led-current" value="20" step="1">
+                            </div>
+                        </div>
+                        <div class="led-calc-result">
+                            <span>Benodigde weerstand: </span>
+                            <span id="led-resistor-result" class="highlight">360Ω</span>
+                            <span class="nearest-value" id="led-nearest-value">(gebruik 390Ω)</span>
+                        </div>
+                    </div>
+
+                    <div class="led-simulator">
+                        <h3>🔴 Interactieve LED Simulator</h3>
+                        <p>Pas de spanning en weerstand aan. Let op wanneer de LED doorbrandt!</p>
+                        <canvas id="led-canvas" width="700" height="400"></canvas>
+                        <div class="led-controls">
+                            <div class="control-group">
+                                <label>Spanning</label>
+                                <input type="range" id="led-voltage-slider" min="0" max="12" value="5" step="0.5">
+                                <span id="led-voltage-display">5V</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Weerstand</label>
+                                <input type="range" id="led-resistance-slider" min="0" max="1000" value="220" step="10">
+                                <span id="led-resistance-display">220Ω</span>
+                            </div>
+                        </div>
+                        <div class="led-status" id="led-status">
+                            <div class="status-item">Stroom: <span id="led-current-display">14.5mA</span></div>
+                            <div class="status-item">LED Status: <span id="led-health">Gezond ✓</span></div>
+                        </div>
+                    </div>
+
+                    <button class="next-lesson-btn" onclick="navigateToLesson('series-parallel')">
+                        Volgende Les: Serie & Parallel →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Series & Parallel -->
+            <section class="lesson" id="lesson-series-parallel">
+                <div class="lesson-header">
+                    <h2>Les 4: Serie en Parallel Schakelingen</h2>
+                    <p class="subtitle">Twee manieren om componenten te verbinden</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="comparison-section">
+                        <div class="comparison-card series">
+                            <h3>Serie Schakeling</h3>
+                            <div class="circuit-diagram">
+                                <canvas id="series-diagram" width="300" height="150"></canvas>
+                            </div>
+                            <ul class="circuit-properties">
+                                <li>Stroom is <strong>overal gelijk</strong></li>
+                                <li>Spanning wordt <strong>verdeeld</strong></li>
+                                <li>R<sub>totaal</sub> = R₁ + R₂ + R₃</li>
+                                <li>Als één component faalt, stopt alles</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card parallel">
+                            <h3>Parallel Schakeling</h3>
+                            <div class="circuit-diagram">
+                                <canvas id="parallel-diagram" width="300" height="150"></canvas>
+                            </div>
+                            <ul class="circuit-properties">
+                                <li>Spanning is <strong>overal gelijk</strong></li>
+                                <li>Stroom wordt <strong>verdeeld</strong></li>
+                                <li>1/R<sub>totaal</sub> = 1/R₁ + 1/R₂ + 1/R₃</li>
+                                <li>Andere componenten werken door</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="series-parallel-simulator">
+                        <h3>🔌 Interactieve Simulator</h3>
+                        <div class="simulator-tabs">
+                            <button class="tab-btn active" data-tab="series-sim">Serie</button>
+                            <button class="tab-btn" data-tab="parallel-sim">Parallel</button>
+                        </div>
+
+                        <div class="tab-content active" id="series-sim">
+                            <canvas id="series-canvas" width="700" height="350"></canvas>
+                            <div class="series-controls">
+                                <div class="resistor-inputs">
+                                    <div class="control-group">
+                                        <label>R₁</label>
+                                        <input type="range" id="series-r1" min="100" max="1000" value="200">
+                                        <span id="series-r1-val">200Ω</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>R₂</label>
+                                        <input type="range" id="series-r2" min="100" max="1000" value="300">
+                                        <span id="series-r2-val">300Ω</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>R₃</label>
+                                        <input type="range" id="series-r3" min="100" max="1000" value="500">
+                                        <span id="series-r3-val">500Ω</span>
+                                    </div>
+                                </div>
+                                <div class="series-results">
+                                    <div class="result-box">
+                                        <span class="label">Totale Weerstand:</span>
+                                        <span class="value" id="series-total-r">1000Ω</span>
+                                    </div>
+                                    <div class="result-box">
+                                        <span class="label">Stroom (bij 9V):</span>
+                                        <span class="value" id="series-current">9mA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="parallel-sim">
+                            <canvas id="parallel-canvas" width="700" height="350"></canvas>
+                            <div class="parallel-controls">
+                                <div class="resistor-inputs">
+                                    <div class="control-group">
+                                        <label>R₁</label>
+                                        <input type="range" id="parallel-r1" min="100" max="1000" value="200">
+                                        <span id="parallel-r1-val">200Ω</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>R₂</label>
+                                        <input type="range" id="parallel-r2" min="100" max="1000" value="300">
+                                        <span id="parallel-r2-val">300Ω</span>
+                                    </div>
+                                    <div class="control-group">
+                                        <label>R₃</label>
+                                        <input type="range" id="parallel-r3" min="100" max="1000" value="500">
+                                        <span id="parallel-r3-val">500Ω</span>
+                                    </div>
+                                </div>
+                                <div class="parallel-results">
+                                    <div class="result-box">
+                                        <span class="label">Totale Weerstand:</span>
+                                        <span class="value" id="parallel-total-r">96.8Ω</span>
+                                    </div>
+                                    <div class="result-box">
+                                        <span class="label">Totale Stroom (bij 9V):</span>
+                                        <span class="value" id="parallel-current">93mA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="next-lesson-btn" onclick="navigateToLesson('capacitor')">
+                        Volgende Les: Condensatoren →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Capacitors -->
+            <section class="lesson" id="lesson-capacitor">
+                <div class="lesson-header">
+                    <h2>Les 5: Condensatoren</h2>
+                    <p class="subtitle">Energie opslaan en vrijgeven</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="capacitor-intro">
+                        <div class="cap-info-card">
+                            <h3>🔋 Wat is een Condensator?</h3>
+                            <p>Een condensator slaat elektrische energie op in een elektrisch veld. Het bestaat uit twee geleidende platen gescheiden door een isolator.</p>
+                            <div class="cap-symbol">
+                                <svg viewBox="0 0 100 60">
+                                    <line x1="10" y1="30" x2="40" y2="30" stroke="#fff" stroke-width="2"/>
+                                    <line x1="40" y1="10" x2="40" y2="50" stroke="#fff" stroke-width="3"/>
+                                    <line x1="55" y1="10" x2="55" y2="50" stroke="#fff" stroke-width="3"/>
+                                    <line x1="55" y1="30" x2="90" y2="30" stroke="#fff" stroke-width="2"/>
+                                </svg>
+                                <span>Condensator Symbool</span>
+                            </div>
+                            <div class="unit-badge">Eenheid: Farad (F), meestal µF of pF</div>
+                        </div>
+                        <div class="cap-analogy-card">
+                            <h3>🚰 Water Analogie</h3>
+                            <p>Denk aan een condensator als een waterreservoir met een elastisch membraan. Het kan water (lading) opslaan en later weer afgeven.</p>
+                        </div>
+                    </div>
+
+                    <div class="capacitor-charging">
+                        <h3>⚡ Laad- en Ontlaadcurve</h3>
+                        <p>Een condensator laadt en ontlaadt niet instant - het volgt een exponentiële curve.</p>
+                        <div class="charge-formula">
+                            <div class="formula">τ = R × C</div>
+                            <p>τ (tau) = tijdconstante - tijd om 63% te laden/ontladen</p>
+                        </div>
+                        <canvas id="charge-curve-canvas" width="700" height="300"></canvas>
+                        <div class="charge-controls">
+                            <div class="control-group">
+                                <label>Weerstand (kΩ)</label>
+                                <input type="range" id="cap-resistance" min="1" max="100" value="10">
+                                <span id="cap-r-display">10kΩ</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Capaciteit (µF)</label>
+                                <input type="range" id="cap-capacitance" min="1" max="1000" value="100">
+                                <span id="cap-c-display">100µF</span>
+                            </div>
+                            <div class="tau-display">
+                                <span>Tijdconstante τ = </span>
+                                <span id="tau-value" class="highlight">1.0s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="capacitor-simulator">
+                        <h3>🔌 Condensator Simulator</h3>
+                        <p>Druk op "Laden" en "Ontladen" om het effect te zien!</p>
+                        <canvas id="capacitor-canvas" width="700" height="400"></canvas>
+                        <div class="cap-sim-controls">
+                            <button id="cap-charge-btn" class="cap-btn charge">⚡ Laden</button>
+                            <button id="cap-discharge-btn" class="cap-btn discharge">💨 Ontladen</button>
+                            <button id="cap-reset-btn" class="cap-btn reset">🔄 Reset</button>
+                        </div>
+                        <div class="cap-status">
+                            <div class="voltage-meter">
+                                <span>Condensator Spanning:</span>
+                                <div class="meter-bar">
+                                    <div class="meter-fill" id="cap-voltage-fill"></div>
+                                </div>
+                                <span id="cap-voltage-val">0.0V</span>
+                            </div>
+                            <div class="charge-percent">
+                                <span>Geladen:</span>
+                                <span id="cap-charge-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="next-lesson-btn" onclick="navigateToLesson('builder')">
+                        Volgende: Circuit Builder →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Circuit Builder -->
+            <section class="lesson" id="lesson-builder">
+                <div class="lesson-header">
+                    <h2>Circuit Builder</h2>
+                    <p class="subtitle">Bouw je eigen circuits!</p>
+                </div>
+                <div class="lesson-content">
+                    <div class="builder-container">
+                        <div class="component-palette">
+                            <h3>Componenten</h3>
+                            <div class="component-list">
+                                <div class="palette-component" data-type="battery" draggable="true">
+                                    <div class="component-icon">🔋</div>
+                                    <span>Batterij</span>
+                                </div>
+                                <div class="palette-component" data-type="resistor" draggable="true">
+                                    <div class="component-icon">⏛</div>
+                                    <span>Weerstand</span>
+                                </div>
+                                <div class="palette-component" data-type="led" draggable="true">
+                                    <div class="component-icon">💡</div>
+                                    <span>LED</span>
+                                </div>
+                                <div class="palette-component" data-type="capacitor" draggable="true">
+                                    <div class="component-icon">⊥⊥</div>
+                                    <span>Condensator</span>
+                                </div>
+                                <div class="palette-component" data-type="switch" draggable="true">
+                                    <div class="component-icon">⏻</div>
+                                    <span>Schakelaar</span>
+                                </div>
+                                <div class="palette-component" data-type="wire" draggable="true">
+                                    <div class="component-icon">—</div>
+                                    <span>Draad</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="builder-workspace">
+                            <canvas id="builder-canvas" width="600" height="500"></canvas>
+                            <div class="builder-controls">
+                                <button id="builder-clear" class="builder-btn">🗑️ Wissen</button>
+                                <button id="builder-simulate" class="builder-btn primary">▶️ Simuleren</button>
+                                <button id="builder-stop" class="builder-btn">⏹️ Stop</button>
+                            </div>
+                        </div>
+                        <div class="component-properties">
+                            <h3>Eigenschappen</h3>
+                            <div id="property-panel">
+                                <p class="no-selection">Selecteer een component om eigenschappen te bewerken</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="builder-presets">
+                        <h3>📋 Voorbeeldcircuits</h3>
+                        <div class="preset-list">
+                            <button class="preset-btn" data-preset="simple-led">Eenvoudig LED Circuit</button>
+                            <button class="preset-btn" data-preset="series-leds">LEDs in Serie</button>
+                            <button class="preset-btn" data-preset="parallel-leds">LEDs Parallel</button>
+                            <button class="preset-btn" data-preset="rc-circuit">RC Circuit</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    
+    
+    
+    
+    <script>
+// ============================================
+// ElektroLab - Animations Module
+// Visuele animaties voor elektronica concepten
+// ============================================
+
+class ElectronAnimation {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.electrons = [];
+        this.isRunning = false;
+        this.speed = 2;
+        this.circuitPath = [];
+        this.animationId = null;
+
+        this.initCircuitPath();
+        this.createElectrons(15);
+    }
+
+    initCircuitPath() {
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+        const padding = 50;
+
+        // Rechthoekig circuit pad
+        this.circuitPath = [
+            { x: padding, y: h / 2 },
+            { x: padding, y: padding },
+            { x: w - padding, y: padding },
+            { x: w - padding, y: h / 2 },
+            { x: w - padding, y: h - padding },
+            { x: padding, y: h - padding }
+        ];
+    }
+
+    createElectrons(count) {
+        this.electrons = [];
+        for (let i = 0; i < count; i++) {
+            this.electrons.push({
+                pathPosition: i / count,
+                size: 6 + Math.random() * 3
+            });
+        }
+    }
+
+    getPositionOnPath(t) {
+        // t is 0 to 1, representing position along the circuit
+        const totalSegments = this.circuitPath.length;
+        const segmentLength = 1 / totalSegments;
+        const segmentIndex = Math.floor(t * totalSegments) % totalSegments;
+        const segmentT = (t * totalSegments) % 1;
+
+        const start = this.circuitPath[segmentIndex];
+        const end = this.circuitPath[(segmentIndex + 1) % totalSegments];
+
+        return {
+            x: start.x + (end.x - start.x) * segmentT,
+            y: start.y + (end.y - start.y) * segmentT
+        };
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Teken circuit draden
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 8;
+        this.ctx.lineCap = 'round';
+        this.ctx.lineJoin = 'round';
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.circuitPath[0].x, this.circuitPath[0].y);
+        for (let i = 1; i < this.circuitPath.length; i++) {
+            this.ctx.lineTo(this.circuitPath[i].x, this.circuitPath[i].y);
+        }
+        this.ctx.closePath();
+        this.ctx.stroke();
+
+        // Teken batterij (linkerkant)
+        this.drawBattery(50, this.canvas.height / 2 - 30);
+
+        // Teken weerstand (rechterkant)
+        this.drawResistor(this.canvas.width - 80, this.canvas.height / 2 - 15);
+
+        // Teken elektronen
+        this.electrons.forEach(electron => {
+            const pos = this.getPositionOnPath(electron.pathPosition);
+
+            // Glow effect
+            const gradient = this.ctx.createRadialGradient(
+                pos.x, pos.y, 0,
+                pos.x, pos.y, electron.size * 2
+            );
+            gradient.addColorStop(0, 'rgba(78, 205, 196, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(78, 205, 196, 0.3)');
+            gradient.addColorStop(1, 'rgba(78, 205, 196, 0)');
+
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x, pos.y, electron.size * 2, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+
+            // Electron core
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x, pos.y, electron.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            // Highlight
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x - electron.size * 0.3, pos.y - electron.size * 0.3, electron.size * 0.3, 0, Math.PI * 2);
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            this.ctx.fill();
+        });
+
+        // Labels
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Batterij (+)', 50, this.canvas.height / 2 + 55);
+        this.ctx.fillText('Weerstand', this.canvas.width - 50, this.canvas.height / 2 + 40);
+        this.ctx.fillText('Elektronenstroom', this.canvas.width / 2, 30);
+    }
+
+    drawBattery(x, y) {
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x - 15, y, 30, 60);
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(x - 8, y - 8, 16, 8);
+
+        // + en - symbolen
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 16px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('+', x, y + 20);
+        this.ctx.fillText('-', x, y + 50);
+    }
+
+    drawResistor(x, y) {
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 3;
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y + 15);
+        this.ctx.lineTo(x + 10, y);
+        this.ctx.lineTo(x + 20, y + 30);
+        this.ctx.lineTo(x + 30, y);
+        this.ctx.lineTo(x + 40, y + 30);
+        this.ctx.lineTo(x + 50, y);
+        this.ctx.lineTo(x + 60, y + 15);
+        this.ctx.stroke();
+    }
+
+    update() {
+        this.electrons.forEach(electron => {
+            electron.pathPosition += this.speed * 0.002;
+            if (electron.pathPosition > 1) {
+                electron.pathPosition -= 1;
+            }
+        });
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+
+        this.update();
+        this.draw();
+        this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    start() {
+        this.isRunning = true;
+        this.animate();
+    }
+
+    stop() {
+        this.isRunning = false;
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+    }
+
+    setSpeed(speed) {
+        this.speed = speed;
+    }
+}
+
+// Water Analogie Animatie
+class WaterAnalogyAnimation {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.voltage = 6;
+        this.resistance = 500;
+        this.waterDrops = [];
+        this.isRunning = true;
+
+        this.createWaterDrops();
+        this.animate();
+    }
+
+    createWaterDrops() {
+        this.waterDrops = [];
+        for (let i = 0; i < 20; i++) {
+            this.waterDrops.push({
+                x: 300 + Math.random() * 100,
+                y: Math.random() * 200 + 100,
+                speed: 1 + Math.random() * 2,
+                size: 3 + Math.random() * 3
+            });
+        }
+    }
+
+    calculateCurrent() {
+        return (this.voltage / this.resistance * 1000).toFixed(1);
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const waterLevel = 50 + (12 - this.voltage) * 20;
+        const pipeWidth = 60 - (this.resistance / 1000) * 40;
+        const current = parseFloat(this.calculateCurrent());
+
+        // Water reservoir (links)
+        this.ctx.fillStyle = '#2d3748';
+        this.ctx.fillRect(50, 50, 150, 300);
+
+        // Water in reservoir
+        const waterHeight = this.voltage * 20;
+        const gradient = this.ctx.createLinearGradient(50, 350 - waterHeight, 50, 350);
+        gradient.addColorStop(0, '#63b3ed');
+        gradient.addColorStop(1, '#3182ce');
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(52, 350 - waterHeight, 146, waterHeight);
+
+        // Buizen
+        this.ctx.fillStyle = '#4a5568';
+        // Horizontale buis
+        this.ctx.fillRect(200, 170 - pipeWidth/2, 300, pipeWidth);
+        // Verticale buis (rechts)
+        this.ctx.fillRect(500, 170, 50, 180);
+
+        // Reservoir labels
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('SPANNING', 125, 380);
+        this.ctx.fillText(`${this.voltage}V`, 125, 400);
+
+        // Weerstand indicator
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(320, 140, 60, 60);
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 12px Segoe UI';
+        this.ctx.fillText('WEERSTAND', 350, 170);
+        this.ctx.fillText(`${this.resistance}Ω`, 350, 185);
+
+        // Water druppels animatie (stroom)
+        const dropSpeed = current / 5;
+        this.waterDrops.forEach(drop => {
+            this.ctx.beginPath();
+            this.ctx.arc(drop.x, drop.y, drop.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#63b3ed';
+            this.ctx.fill();
+
+            drop.y += dropSpeed * drop.speed;
+            if (drop.y > 350) {
+                drop.y = 170;
+                drop.x = 300 + Math.random() * 100;
+            }
+        });
+
+        // Stroom indicator
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 16px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('STROOM', 550, 380);
+        this.ctx.fillStyle = '#4ecdc4';
+        this.ctx.fillText(`${this.calculateCurrent()} mA`, 550, 405);
+
+        // Uitleg
+        this.ctx.fillStyle = '#a0aec0';
+        this.ctx.font = '13px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText('• Hogere spanning = meer druk = meer stroom', 50, 440);
+        this.ctx.fillText('• Hogere weerstand = smallere buis = minder stroom', 50, 460);
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    setVoltage(v) {
+        this.voltage = v;
+    }
+
+    setResistance(r) {
+        this.resistance = r;
+    }
+}
+
+// Intro Animatie
+class IntroAnimation {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.connections = [];
+        this.time = 0;
+
+        this.createParticles();
+        this.animate();
+    }
+
+    createParticles() {
+        for (let i = 0; i < 30; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                radius: 3 + Math.random() * 4,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Teken verbindingen
+        this.particles.forEach((p1, i) => {
+            this.particles.slice(i + 1).forEach(p2 => {
+                const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+                if (dist < 100) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p1.x, p1.y);
+                    this.ctx.lineTo(p2.x, p2.y);
+                    this.ctx.strokeStyle = `rgba(78, 205, 196, ${1 - dist / 100})`;
+                    this.ctx.lineWidth = 1;
+                    this.ctx.stroke();
+                }
+            });
+        });
+
+        // Teken en update particles
+        this.particles.forEach(p => {
+            // Pulse effect
+            p.pulse += 0.05;
+            const pulseRadius = p.radius + Math.sin(p.pulse) * 2;
+
+            // Glow
+            const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, pulseRadius * 3);
+            gradient.addColorStop(0, 'rgba(78, 205, 196, 0.5)');
+            gradient.addColorStop(1, 'rgba(78, 205, 196, 0)');
+
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, pulseRadius * 3, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+
+            // Core
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, pulseRadius, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            // Update position
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Bounce off walls
+            if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+            if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+        });
+
+        // Title text
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 24px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Ontdek de wereld van elektronica!', this.canvas.width / 2, this.canvas.height / 2);
+    }
+
+    animate() {
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Laadcurve Animatie voor Condensator
+class ChargeCurveAnimation {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.resistance = 10000; // 10kΩ
+        this.capacitance = 0.0001; // 100µF
+        this.maxVoltage = 9;
+        this.time = 0;
+        this.isCharging = true;
+
+        this.draw();
+    }
+
+    getTau() {
+        return this.resistance * this.capacitance;
+    }
+
+    getVoltageAtTime(t, charging = true) {
+        const tau = this.getTau();
+        if (charging) {
+            return this.maxVoltage * (1 - Math.exp(-t / tau));
+        } else {
+            return this.maxVoltage * Math.exp(-t / tau);
+        }
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const padding = 60;
+        const graphWidth = this.canvas.width - padding * 2;
+        const graphHeight = this.canvas.height - padding * 2;
+        const tau = this.getTau();
+        const maxTime = tau * 5;
+
+        // Assen
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 2;
+
+        // Y-as
+        this.ctx.beginPath();
+        this.ctx.moveTo(padding, padding);
+        this.ctx.lineTo(padding, this.canvas.height - padding);
+        this.ctx.stroke();
+
+        // X-as
+        this.ctx.beginPath();
+        this.ctx.moveTo(padding, this.canvas.height - padding);
+        this.ctx.lineTo(this.canvas.width - padding, this.canvas.height - padding);
+        this.ctx.stroke();
+
+        // Grid lijnen
+        this.ctx.strokeStyle = '#2d3748';
+        this.ctx.lineWidth = 1;
+        for (let i = 1; i <= 5; i++) {
+            const y = padding + (graphHeight / 5) * i;
+            this.ctx.beginPath();
+            this.ctx.moveTo(padding, this.canvas.height - y + padding);
+            this.ctx.lineTo(this.canvas.width - padding, this.canvas.height - y + padding);
+            this.ctx.stroke();
+        }
+
+        // Tau lijnen
+        this.ctx.strokeStyle = '#ffd93d';
+        this.ctx.setLineDash([5, 5]);
+        for (let i = 1; i <= 5; i++) {
+            const x = padding + (graphWidth / 5) * i;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, padding);
+            this.ctx.lineTo(x, this.canvas.height - padding);
+            this.ctx.stroke();
+        }
+        this.ctx.setLineDash([]);
+
+        // Laadcurve
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = '#4ecdc4';
+        this.ctx.lineWidth = 3;
+
+        for (let i = 0; i <= graphWidth; i++) {
+            const t = (i / graphWidth) * maxTime;
+            const v = this.getVoltageAtTime(t, true);
+            const x = padding + i;
+            const y = this.canvas.height - padding - (v / this.maxVoltage) * graphHeight;
+
+            if (i === 0) {
+                this.ctx.moveTo(x, y);
+            } else {
+                this.ctx.lineTo(x, y);
+            }
+        }
+        this.ctx.stroke();
+
+        // Ontlaadcurve
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = '#ff6b6b';
+        this.ctx.lineWidth = 3;
+
+        for (let i = 0; i <= graphWidth; i++) {
+            const t = (i / graphWidth) * maxTime;
+            const v = this.getVoltageAtTime(t, false);
+            const x = padding + i;
+            const y = this.canvas.height - padding - (v / this.maxVoltage) * graphHeight;
+
+            if (i === 0) {
+                this.ctx.moveTo(x, y);
+            } else {
+                this.ctx.lineTo(x, y);
+            }
+        }
+        this.ctx.stroke();
+
+        // Labels
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '14px Segoe UI';
+        this.ctx.textAlign = 'center';
+
+        // X-as label
+        this.ctx.fillText('Tijd', this.canvas.width / 2, this.canvas.height - 15);
+
+        // Tau markers
+        for (let i = 1; i <= 5; i++) {
+            const x = padding + (graphWidth / 5) * i;
+            this.ctx.fillStyle = '#ffd93d';
+            this.ctx.fillText(`${i}τ`, x, this.canvas.height - padding + 20);
+        }
+
+        // Y-as label
+        this.ctx.save();
+        this.ctx.translate(20, this.canvas.height / 2);
+        this.ctx.rotate(-Math.PI / 2);
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.fillText('Spanning (V)', 0, 0);
+        this.ctx.restore();
+
+        // Y-as waarden
+        this.ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const v = (this.maxVoltage / 5) * i;
+            const y = this.canvas.height - padding - (graphHeight / 5) * i;
+            this.ctx.fillStyle = '#a0aec0';
+            this.ctx.fillText(v.toFixed(1) + 'V', padding - 10, y + 5);
+        }
+
+        // Legenda
+        this.ctx.textAlign = 'left';
+        this.ctx.fillStyle = '#4ecdc4';
+        this.ctx.fillRect(this.canvas.width - 150, 20, 20, 3);
+        this.ctx.fillText('Laden', this.canvas.width - 120, 25);
+
+        this.ctx.fillStyle = '#ff6b6b';
+        this.ctx.fillRect(this.canvas.width - 150, 40, 20, 3);
+        this.ctx.fillText('Ontladen', this.canvas.width - 120, 45);
+
+        // 63% marker
+        const y63 = this.canvas.height - padding - 0.63 * graphHeight;
+        this.ctx.strokeStyle = '#7bed9f';
+        this.ctx.setLineDash([3, 3]);
+        this.ctx.beginPath();
+        this.ctx.moveTo(padding, y63);
+        this.ctx.lineTo(padding + graphWidth / 5, y63);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]);
+
+        this.ctx.fillStyle = '#7bed9f';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText('63%', padding + graphWidth / 5 + 5, y63 + 5);
+    }
+
+    setResistance(r) {
+        this.resistance = r * 1000; // Convert kΩ to Ω
+        this.draw();
+    }
+
+    setCapacitance(c) {
+        this.capacitance = c / 1000000; // Convert µF to F
+        this.draw();
+    }
+}
+
+// Export voor gebruik in andere modules
+window.ElectronAnimation = ElectronAnimation;
+window.WaterAnalogyAnimation = WaterAnalogyAnimation;
+window.IntroAnimation = IntroAnimation;
+window.ChargeCurveAnimation = ChargeCurveAnimation;
+// ============================================
+// ElektroLab - Simulations Module
+// Interactieve circuit simulaties
+// ============================================
+
+// Ohm's Law Circuit Simulator
+class OhmCircuitSimulator {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.voltage = 9;
+        this.resistance = 1000;
+        this.electrons = [];
+        this.isRunning = true;
+
+        this.createElectrons();
+        this.animate();
+    }
+
+    getCurrent() {
+        return this.voltage / this.resistance;
+    }
+
+    getPower() {
+        const I = this.getCurrent();
+        return this.voltage * I;
+    }
+
+    createElectrons() {
+        this.electrons = [];
+        for (let i = 0; i < 20; i++) {
+            this.electrons.push({
+                position: Math.random(),
+                offset: Math.random() * 6 - 3
+            });
+        }
+    }
+
+    getCircuitPath() {
+        return [
+            { x: 100, y: 175 },  // Batterij +
+            { x: 100, y: 50 },
+            { x: 600, y: 50 },
+            { x: 600, y: 175 },  // Weerstand top
+            { x: 600, y: 300 },  // Weerstand bottom
+            { x: 100, y: 300 },
+            { x: 100, y: 175 }   // Terug naar batterij
+        ];
+    }
+
+    getPositionOnPath(t) {
+        const path = this.getCircuitPath();
+        const totalLength = this.getPathLength();
+        let targetDistance = t * totalLength;
+        let currentDistance = 0;
+
+        for (let i = 0; i < path.length - 1; i++) {
+            const segmentLength = Math.hypot(
+                path[i + 1].x - path[i].x,
+                path[i + 1].y - path[i].y
+            );
+
+            if (currentDistance + segmentLength >= targetDistance) {
+                const segmentT = (targetDistance - currentDistance) / segmentLength;
+                return {
+                    x: path[i].x + (path[i + 1].x - path[i].x) * segmentT,
+                    y: path[i].y + (path[i + 1].y - path[i].y) * segmentT
+                };
+            }
+
+            currentDistance += segmentLength;
+        }
+
+        return path[0];
+    }
+
+    getPathLength() {
+        const path = this.getCircuitPath();
+        let length = 0;
+        for (let i = 0; i < path.length - 1; i++) {
+            length += Math.hypot(
+                path[i + 1].x - path[i].x,
+                path[i + 1].y - path[i].y
+            );
+        }
+        return length;
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const path = this.getCircuitPath();
+
+        // Teken draden
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 6;
+        this.ctx.lineCap = 'round';
+        this.ctx.lineJoin = 'round';
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(path[0].x, path[0].y);
+        for (let i = 1; i < path.length; i++) {
+            this.ctx.lineTo(path[i].x, path[i].y);
+        }
+        this.ctx.stroke();
+
+        // Teken batterij
+        this.drawBattery(70, 135, this.voltage);
+
+        // Teken weerstand
+        this.drawResistor(570, 130, this.resistance);
+
+        // Teken ammeter
+        this.drawAmmeter(350, 300, this.getCurrent() * 1000);
+
+        // Teken elektronen
+        const speed = this.getCurrent() * 500;
+        this.electrons.forEach(e => {
+            const pos = this.getPositionOnPath(e.position);
+
+            // Glow
+            const gradient = this.ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 12);
+            gradient.addColorStop(0, 'rgba(78, 205, 196, 0.6)');
+            gradient.addColorStop(1, 'rgba(78, 205, 196, 0)');
+
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x, pos.y, 12, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+
+            // Electron
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            // Update position
+            e.position += speed * 0.00001;
+            if (e.position > 1) e.position -= 1;
+        });
+
+        // Labels
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+
+        // Formule weergave
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.font = '16px Courier New';
+        const I = (this.getCurrent() * 1000).toFixed(2);
+        this.ctx.fillText(`V = I × R`, 350, 150);
+        this.ctx.fillText(`${this.voltage}V = ${I}mA × ${this.resistance}Ω`, 350, 175);
+    }
+
+    drawBattery(x, y, voltage) {
+        // Batterij body
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x, y, 60, 80);
+
+        // Batterij tip
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(x + 20, y - 10, 20, 10);
+
+        // Spanning label
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 16px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${voltage}V`, x + 30, y + 50);
+
+        // + en - symbolen
+        this.ctx.fillText('+', x + 30, y + 25);
+        this.ctx.fillText('-', x + 30, y + 70);
+    }
+
+    drawResistor(x, y, resistance) {
+        const displayR = resistance >= 1000 ? `${(resistance/1000).toFixed(1)}kΩ` : `${resistance}Ω`;
+
+        // Weerstand zigzag
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 4;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+
+        const zigzagHeight = 100;
+        const zigzagWidth = 20;
+        const segments = 6;
+
+        for (let i = 0; i < segments; i++) {
+            const yOffset = y + (zigzagHeight / segments) * (i + 0.5);
+            const xOffset = (i % 2 === 0) ? x - zigzagWidth : x + zigzagWidth;
+            this.ctx.lineTo(xOffset, yOffset);
+        }
+        this.ctx.lineTo(x, y + zigzagHeight);
+        this.ctx.stroke();
+
+        // Label
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(displayR, x + 30, y + 55);
+    }
+
+    drawAmmeter(x, y, currentMA) {
+        // Cirkel
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, 25, 0, Math.PI * 2);
+        this.ctx.fillStyle = '#2d3748';
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#4ecdc4';
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+
+        // A symbool
+        this.ctx.fillStyle = '#4ecdc4';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('A', x, y + 5);
+
+        // Waarde
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '12px Segoe UI';
+        this.ctx.fillText(`${currentMA.toFixed(2)}mA`, x, y + 45);
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    setVoltage(v) {
+        this.voltage = v;
+    }
+
+    setResistance(r) {
+        this.resistance = r;
+    }
+}
+
+// LED Circuit Simulator
+class LEDSimulator {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.voltage = 5;
+        this.resistance = 220;
+        this.ledVoltage = 2.0;
+        this.ledMaxCurrent = 20; // mA
+        this.electrons = [];
+        this.ledHealth = 100;
+        this.isRunning = true;
+        this.ledColor = '#ff0000';
+
+        this.createElectrons();
+        this.animate();
+    }
+
+    getCurrent() {
+        if (this.voltage <= this.ledVoltage) return 0;
+        if (this.resistance === 0) return 999; // Kort-sluiting
+        return ((this.voltage - this.ledVoltage) / this.resistance) * 1000; // mA
+    }
+
+    getLEDStatus() {
+        const current = this.getCurrent();
+        if (current === 0) return { status: 'off', text: 'Uit', class: 'off' };
+        if (current < 5) return { status: 'dim', text: 'Zwak', class: 'warning' };
+        if (current <= 20) return { status: 'normal', text: 'Gezond ✓', class: 'healthy' };
+        if (current <= 30) return { status: 'bright', text: 'Te helder ⚠', class: 'warning' };
+        return { status: 'burned', text: 'Doorgebrand! ✗', class: 'danger' };
+    }
+
+    createElectrons() {
+        this.electrons = [];
+        for (let i = 0; i < 15; i++) {
+            this.electrons.push({
+                position: Math.random()
+            });
+        }
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const status = this.getLEDStatus();
+        const current = this.getCurrent();
+
+        // Circuit pad
+        const path = [
+            { x: 100, y: 200 },
+            { x: 100, y: 80 },
+            { x: 350, y: 80 },   // Naar weerstand
+            { x: 450, y: 80 },   // Na weerstand
+            { x: 600, y: 80 },
+            { x: 600, y: 200 },  // LED positie
+            { x: 600, y: 320 },
+            { x: 100, y: 320 },
+            { x: 100, y: 200 }
+        ];
+
+        // Teken draden
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 6;
+        this.ctx.lineCap = 'round';
+        this.ctx.beginPath();
+        path.forEach((p, i) => {
+            if (i === 0) this.ctx.moveTo(p.x, p.y);
+            else this.ctx.lineTo(p.x, p.y);
+        });
+        this.ctx.stroke();
+
+        // Batterij
+        this.drawBattery(70, 160, this.voltage);
+
+        // Weerstand
+        this.drawResistor(350, 60, this.resistance);
+
+        // LED
+        this.drawLED(575, 180, status, current);
+
+        // Elektronen (alleen als er stroom is en LED niet doorgebrand)
+        if (current > 0 && status.status !== 'burned') {
+            const speed = Math.min(current, 30) * 0.003;
+            this.electrons.forEach(e => {
+                const pos = this.getPositionOnPath(e.position, path);
+
+                this.ctx.beginPath();
+                this.ctx.arc(pos.x, pos.y, 4, 0, Math.PI * 2);
+                this.ctx.fillStyle = '#4ecdc4';
+                this.ctx.fill();
+
+                e.position += speed;
+                if (e.position > 1) e.position -= 1;
+            });
+        }
+
+        // Info display
+        this.drawInfoPanel(current, status);
+    }
+
+    getPositionOnPath(t, path) {
+        const totalLength = path.reduce((sum, p, i) => {
+            if (i === 0) return 0;
+            return sum + Math.hypot(p.x - path[i-1].x, p.y - path[i-1].y);
+        }, 0);
+
+        let targetDist = t * totalLength;
+        let currentDist = 0;
+
+        for (let i = 0; i < path.length - 1; i++) {
+            const segLen = Math.hypot(path[i+1].x - path[i].x, path[i+1].y - path[i].y);
+            if (currentDist + segLen >= targetDist) {
+                const segT = (targetDist - currentDist) / segLen;
+                return {
+                    x: path[i].x + (path[i+1].x - path[i].x) * segT,
+                    y: path[i].y + (path[i+1].y - path[i].y) * segT
+                };
+            }
+            currentDist += segLen;
+        }
+        return path[0];
+    }
+
+    drawBattery(x, y, voltage) {
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x, y, 60, 80);
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(x + 20, y - 10, 20, 10);
+
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 16px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${voltage}V`, x + 30, y + 50);
+    }
+
+    drawResistor(x, y, resistance) {
+        // Weerstand body
+        this.ctx.fillStyle = '#d4a574';
+        this.ctx.fillRect(x, y, 80, 25);
+
+        // Kleurringen (vereenvoudigd)
+        const colors = ['#8b4513', '#000', '#ff0000', '#ffd700'];
+        colors.forEach((c, i) => {
+            this.ctx.fillStyle = c;
+            this.ctx.fillRect(x + 10 + i * 18, y, 8, 25);
+        });
+
+        // Label
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '12px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${resistance}Ω`, x + 40, y + 45);
+    }
+
+    drawLED(x, y, status, current) {
+        // LED behuizing
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, 25, 0, Math.PI * 2);
+
+        if (status.status === 'burned') {
+            this.ctx.fillStyle = '#2d3748';
+        } else if (status.status === 'off') {
+            this.ctx.fillStyle = '#4a1515';
+        } else {
+            // Brightness based on current
+            const brightness = Math.min(current / 20, 1);
+            this.ctx.fillStyle = this.ledColor;
+
+            // Glow effect
+            if (brightness > 0) {
+                const glowSize = 30 + brightness * 40;
+                const gradient = this.ctx.createRadialGradient(x, y, 10, x, y, glowSize);
+                gradient.addColorStop(0, this.ledColor);
+                gradient.addColorStop(0.5, `${this.ledColor}88`);
+                gradient.addColorStop(1, 'transparent');
+
+                this.ctx.beginPath();
+                this.ctx.arc(x, y, glowSize, 0, Math.PI * 2);
+                this.ctx.fillStyle = gradient;
+                this.ctx.fill();
+            }
+        }
+
+        // LED body
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, 20, 0, Math.PI * 2);
+        if (status.status === 'burned') {
+            this.ctx.fillStyle = '#1a1a1a';
+        } else {
+            this.ctx.fillStyle = status.status === 'off' ? '#3d1515' : this.ledColor;
+        }
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#666';
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+
+        // Burned effect
+        if (status.status === 'burned') {
+            this.ctx.fillStyle = '#ff6b6b';
+            this.ctx.font = 'bold 24px Segoe UI';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('✗', x, y + 8);
+        }
+    }
+
+    drawInfoPanel(current, status) {
+        // Info box
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.fillRect(200, 350, 300, 40);
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.strokeRect(200, 350, 300, 40);
+
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '14px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(`Stroom: ${current.toFixed(1)}mA`, 220, 375);
+
+        // Status indicator
+        let statusColor = '#4ecdc4';
+        if (status.class === 'warning') statusColor = '#ffd93d';
+        if (status.class === 'danger') statusColor = '#ff6b6b';
+
+        this.ctx.fillStyle = statusColor;
+        this.ctx.textAlign = 'right';
+        this.ctx.fillText(status.text, 480, 375);
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    setVoltage(v) {
+        this.voltage = v;
+    }
+
+    setResistance(r) {
+        this.resistance = r;
+    }
+
+    setLEDColor(color) {
+        this.ledColor = color;
+    }
+}
+
+// Series Circuit Simulator
+class SeriesCircuitSimulator {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.voltage = 9;
+        this.r1 = 200;
+        this.r2 = 300;
+        this.r3 = 500;
+        this.electrons = [];
+        this.isRunning = true;
+
+        this.createElectrons();
+        this.animate();
+    }
+
+    getTotalResistance() {
+        return this.r1 + this.r2 + this.r3;
+    }
+
+    getCurrent() {
+        return this.voltage / this.getTotalResistance();
+    }
+
+    createElectrons() {
+        this.electrons = [];
+        for (let i = 0; i < 15; i++) {
+            this.electrons.push({ position: Math.random() });
+        }
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const current = this.getCurrent() * 1000; // mA
+        const totalR = this.getTotalResistance();
+
+        // Circuit pad (rechthoek)
+        const path = [
+            { x: 80, y: 175 },
+            { x: 80, y: 60 },
+            { x: 200, y: 60 },  // R1 start
+            { x: 280, y: 60 },  // R1 end
+            { x: 350, y: 60 },  // R2 start
+            { x: 430, y: 60 },  // R2 end
+            { x: 500, y: 60 },  // R3 start
+            { x: 580, y: 60 },  // R3 end
+            { x: 620, y: 60 },
+            { x: 620, y: 290 },
+            { x: 80, y: 290 },
+            { x: 80, y: 175 }
+        ];
+
+        // Draden
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 5;
+        this.ctx.beginPath();
+        path.forEach((p, i) => {
+            if (i === 0) this.ctx.moveTo(p.x, p.y);
+            else this.ctx.lineTo(p.x, p.y);
+        });
+        this.ctx.stroke();
+
+        // Batterij
+        this.drawBattery(50, 135);
+
+        // Weerstanden in serie
+        this.drawResistorHorizontal(200, 45, this.r1, 'R₁');
+        this.drawResistorHorizontal(350, 45, this.r2, 'R₂');
+        this.drawResistorHorizontal(500, 45, this.r3, 'R₃');
+
+        // Spanning over elke weerstand
+        const v1 = (this.r1 / totalR * this.voltage).toFixed(2);
+        const v2 = (this.r2 / totalR * this.voltage).toFixed(2);
+        const v3 = (this.r3 / totalR * this.voltage).toFixed(2);
+
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.font = '11px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${v1}V`, 240, 100);
+        this.ctx.fillText(`${v2}V`, 390, 100);
+        this.ctx.fillText(`${v3}V`, 540, 100);
+
+        // Elektronen
+        const speed = current * 0.003;
+        this.electrons.forEach(e => {
+            const pos = this.getPositionOnPath(e.position, path);
+            this.ctx.beginPath();
+            this.ctx.arc(pos.x, pos.y, 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            e.position += speed;
+            if (e.position > 1) e.position -= 1;
+        });
+
+        // Info
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(`Stroom: ${current.toFixed(2)}mA (overal gelijk!)`, 200, 320);
+        this.ctx.fillText(`V₁ + V₂ + V₃ = ${v1}V + ${v2}V + ${v3}V = ${this.voltage}V`, 200, 340);
+    }
+
+    getPositionOnPath(t, path) {
+        const totalLength = path.reduce((sum, p, i) => {
+            if (i === 0) return 0;
+            return sum + Math.hypot(p.x - path[i-1].x, p.y - path[i-1].y);
+        }, 0);
+
+        let targetDist = t * totalLength;
+        let currentDist = 0;
+
+        for (let i = 0; i < path.length - 1; i++) {
+            const segLen = Math.hypot(path[i+1].x - path[i].x, path[i+1].y - path[i].y);
+            if (currentDist + segLen >= targetDist) {
+                const segT = (targetDist - currentDist) / segLen;
+                return {
+                    x: path[i].x + (path[i+1].x - path[i].x) * segT,
+                    y: path[i].y + (path[i+1].y - path[i].y) * segT
+                };
+            }
+            currentDist += segLen;
+        }
+        return path[0];
+    }
+
+    drawBattery(x, y) {
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x, y, 60, 80);
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.voltage}V`, x + 30, y + 45);
+    }
+
+    drawResistorHorizontal(x, y, value, label) {
+        // Zigzag
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y + 15);
+
+        const width = 80;
+        const height = 15;
+        const segments = 5;
+
+        for (let i = 0; i < segments; i++) {
+            const xOff = x + (width / segments) * (i + 0.5);
+            const yOff = (i % 2 === 0) ? y : y + 30;
+            this.ctx.lineTo(xOff, yOff);
+        }
+        this.ctx.lineTo(x + width, y + 15);
+        this.ctx.stroke();
+
+        // Label
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '12px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${label}=${value}Ω`, x + 40, y + 50);
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    setR1(r) { this.r1 = r; }
+    setR2(r) { this.r2 = r; }
+    setR3(r) { this.r3 = r; }
+}
+
+// Parallel Circuit Simulator
+class ParallelCircuitSimulator {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.voltage = 9;
+        this.r1 = 200;
+        this.r2 = 300;
+        this.r3 = 500;
+        this.electrons = { main: [], branch1: [], branch2: [], branch3: [] };
+        this.isRunning = true;
+
+        this.createElectrons();
+        this.animate();
+    }
+
+    getTotalResistance() {
+        return 1 / (1/this.r1 + 1/this.r2 + 1/this.r3);
+    }
+
+    getTotalCurrent() {
+        return this.voltage / this.getTotalResistance();
+    }
+
+    getBranchCurrent(r) {
+        return this.voltage / r;
+    }
+
+    createElectrons() {
+        for (let i = 0; i < 8; i++) {
+            this.electrons.main.push({ position: Math.random() });
+        }
+        for (let i = 0; i < 5; i++) {
+            this.electrons.branch1.push({ position: Math.random() });
+            this.electrons.branch2.push({ position: Math.random() });
+            this.electrons.branch3.push({ position: Math.random() });
+        }
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const totalR = this.getTotalResistance();
+        const totalI = this.getTotalCurrent() * 1000;
+        const i1 = this.getBranchCurrent(this.r1) * 1000;
+        const i2 = this.getBranchCurrent(this.r2) * 1000;
+        const i3 = this.getBranchCurrent(this.r3) * 1000;
+
+        // Hoofd circuit
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 5;
+
+        // Linker rail
+        this.ctx.beginPath();
+        this.ctx.moveTo(80, 175);
+        this.ctx.lineTo(80, 50);
+        this.ctx.lineTo(200, 50);
+        this.ctx.moveTo(200, 50);
+        this.ctx.lineTo(200, 300);
+        this.ctx.lineTo(80, 300);
+        this.ctx.lineTo(80, 175);
+        this.ctx.stroke();
+
+        // Rechter rail
+        this.ctx.beginPath();
+        this.ctx.moveTo(550, 50);
+        this.ctx.lineTo(620, 50);
+        this.ctx.lineTo(620, 300);
+        this.ctx.lineTo(550, 300);
+        this.ctx.stroke();
+
+        // Parallelle takken
+        // Tak 1 (boven)
+        this.ctx.beginPath();
+        this.ctx.moveTo(200, 80);
+        this.ctx.lineTo(550, 80);
+        this.ctx.stroke();
+
+        // Tak 2 (midden)
+        this.ctx.beginPath();
+        this.ctx.moveTo(200, 175);
+        this.ctx.lineTo(550, 175);
+        this.ctx.stroke();
+
+        // Tak 3 (onder)
+        this.ctx.beginPath();
+        this.ctx.moveTo(200, 270);
+        this.ctx.lineTo(550, 270);
+        this.ctx.stroke();
+
+        // Batterij
+        this.drawBattery(50, 135);
+
+        // Weerstanden
+        this.drawResistorHorizontal(340, 65, this.r1, 'R₁', i1);
+        this.drawResistorHorizontal(340, 160, this.r2, 'R₂', i2);
+        this.drawResistorHorizontal(340, 255, this.r3, 'R₃', i3);
+
+        // Elektronen in takken
+        this.drawBranchElectrons(this.electrons.branch1, [
+            {x: 200, y: 80}, {x: 550, y: 80}
+        ], i1 * 0.003);
+
+        this.drawBranchElectrons(this.electrons.branch2, [
+            {x: 200, y: 175}, {x: 550, y: 175}
+        ], i2 * 0.003);
+
+        this.drawBranchElectrons(this.electrons.branch3, [
+            {x: 200, y: 270}, {x: 550, y: 270}
+        ], i3 * 0.003);
+
+        // Info
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 13px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(`Spanning: ${this.voltage}V (overal gelijk!)`, 200, 320);
+        this.ctx.fillText(`I₁ + I₂ + I₃ = ${i1.toFixed(1)} + ${i2.toFixed(1)} + ${i3.toFixed(1)} = ${totalI.toFixed(1)}mA`, 200, 340);
+    }
+
+    drawBranchElectrons(electrons, path, speed) {
+        electrons.forEach(e => {
+            const x = path[0].x + (path[1].x - path[0].x) * e.position;
+            const y = path[0].y;
+
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            e.position += speed;
+            if (e.position > 1) e.position = 0;
+        });
+    }
+
+    drawBattery(x, y) {
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x, y, 60, 80);
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.voltage}V`, x + 30, y + 45);
+    }
+
+    drawResistorHorizontal(x, y, value, label, current) {
+        // Zigzag
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y + 15);
+
+        const width = 70;
+        const segments = 5;
+
+        for (let i = 0; i < segments; i++) {
+            const xOff = x + (width / segments) * (i + 0.5);
+            const yOff = (i % 2 === 0) ? y : y + 30;
+            this.ctx.lineTo(xOff, yOff);
+        }
+        this.ctx.lineTo(x + width, y + 15);
+        this.ctx.stroke();
+
+        // Labels
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '11px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${label}=${value}Ω`, x + 35, y - 5);
+
+        this.ctx.fillStyle = '#4ecdc4';
+        this.ctx.fillText(`${current.toFixed(1)}mA`, x + 35, y + 45);
+    }
+
+    animate() {
+        if (!this.isRunning) return;
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    setR1(r) { this.r1 = r; }
+    setR2(r) { this.r2 = r; }
+    setR3(r) { this.r3 = r; }
+}
+
+// Capacitor Simulator
+class CapacitorSimulator {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.maxVoltage = 9;
+        this.currentVoltage = 0;
+        this.resistance = 10000; // 10kΩ
+        this.capacitance = 0.0001; // 100µF
+        this.isCharging = false;
+        this.isDischarging = false;
+        this.electrons = [];
+        this.chargeParticles = [];
+
+        this.createElectrons();
+        this.animate();
+    }
+
+    getTau() {
+        return this.resistance * this.capacitance;
+    }
+
+    createElectrons() {
+        for (let i = 0; i < 15; i++) {
+            this.electrons.push({ position: Math.random() });
+        }
+    }
+
+    charge() {
+        this.isCharging = true;
+        this.isDischarging = false;
+    }
+
+    discharge() {
+        this.isDischarging = true;
+        this.isCharging = false;
+    }
+
+    reset() {
+        this.currentVoltage = 0;
+        this.isCharging = false;
+        this.isDischarging = false;
+        this.chargeParticles = [];
+    }
+
+    update() {
+        const tau = this.getTau();
+        const dt = 0.016; // ~60fps
+
+        if (this.isCharging) {
+            // Exponentiële lading: V = Vmax * (1 - e^(-t/τ))
+            const targetV = this.maxVoltage;
+            const diff = targetV - this.currentVoltage;
+            this.currentVoltage += diff * (dt / tau) * 2;
+
+            if (this.currentVoltage >= this.maxVoltage * 0.99) {
+                this.currentVoltage = this.maxVoltage;
+                this.isCharging = false;
+            }
+
+            // Voeg lading particles toe
+            if (Math.random() < 0.3) {
+                this.chargeParticles.push({
+                    x: 250,
+                    y: 200,
+                    targetX: 350 + Math.random() * 20 - 10,
+                    targetY: 150 + Math.random() * 100,
+                    progress: 0
+                });
+            }
+        }
+
+        if (this.isDischarging) {
+            // Exponentiële ontlading: V = Vstart * e^(-t/τ)
+            this.currentVoltage *= (1 - (dt / tau) * 2);
+
+            if (this.currentVoltage < 0.01) {
+                this.currentVoltage = 0;
+                this.isDischarging = false;
+            }
+
+            // Verwijder lading particles
+            if (this.chargeParticles.length > 0 && Math.random() < 0.2) {
+                this.chargeParticles.pop();
+            }
+        }
+
+        // Update charge particles
+        this.chargeParticles = this.chargeParticles.filter(p => {
+            p.progress += 0.05;
+            return p.progress < 1;
+        });
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Circuit
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 5;
+
+        // Draden
+        this.ctx.beginPath();
+        this.ctx.moveTo(100, 200);
+        this.ctx.lineTo(100, 100);
+        this.ctx.lineTo(350, 100);
+        this.ctx.moveTo(400, 100);
+        this.ctx.lineTo(600, 100);
+        this.ctx.lineTo(600, 200);
+        this.ctx.lineTo(600, 300);
+        this.ctx.lineTo(100, 300);
+        this.ctx.lineTo(100, 200);
+        this.ctx.stroke();
+
+        // Batterij
+        this.drawBattery(70, 160);
+
+        // Weerstand
+        this.drawResistor(200, 85);
+
+        // Condensator
+        this.drawCapacitor(350, 150, this.currentVoltage / this.maxVoltage);
+
+        // Schakelaar indicator
+        this.ctx.fillStyle = this.isCharging ? '#4ecdc4' : (this.isDischarging ? '#ff6b6b' : '#4a5568');
+        this.ctx.beginPath();
+        this.ctx.arc(450, 100, 8, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Status
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '14px Segoe UI';
+        this.ctx.textAlign = 'center';
+
+        let statusText = 'Inactief';
+        if (this.isCharging) statusText = 'Laden...';
+        if (this.isDischarging) statusText = 'Ontladen...';
+
+        this.ctx.fillText(statusText, 350, 350);
+
+        // Charge particles (tijdens laden)
+        this.chargeParticles.forEach(p => {
+            const x = p.x + (p.targetX - p.x) * p.progress;
+            const y = p.y + (p.targetY - p.y) * p.progress;
+
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 3, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+        });
+
+        // Elektronen (wanneer stroom vloeit)
+        if (this.isCharging || this.isDischarging) {
+            const speed = this.isCharging ? 0.01 : -0.01;
+            this.electrons.forEach(e => {
+                // Simplified path
+                const x = 100 + e.position * 500;
+                const y = e.position < 0.2 ? 200 - e.position * 500 :
+                         e.position < 0.5 ? 100 :
+                         e.position < 0.7 ? 100 + (e.position - 0.5) * 1000 :
+                         300;
+
+                this.ctx.beginPath();
+                this.ctx.arc(x, y, 4, 0, Math.PI * 2);
+                this.ctx.fillStyle = '#4ecdc4';
+                this.ctx.fill();
+
+                e.position += speed;
+                if (e.position > 1) e.position = 0;
+                if (e.position < 0) e.position = 1;
+            });
+        }
+    }
+
+    drawBattery(x, y) {
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(x, y, 60, 80);
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.maxVoltage}V`, x + 30, y + 45);
+    }
+
+    drawResistor(x, y) {
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y + 15);
+
+        for (let i = 0; i < 5; i++) {
+            const xOff = x + 15 * (i + 0.5);
+            const yOff = (i % 2 === 0) ? y : y + 30;
+            this.ctx.lineTo(xOff, yOff);
+        }
+        this.ctx.lineTo(x + 80, y + 15);
+        this.ctx.stroke();
+
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '11px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('R', x + 40, y + 50);
+    }
+
+    drawCapacitor(x, y, chargeLevel) {
+        // Platen
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(x, y, 8, 100);
+        this.ctx.fillRect(x + 40, y, 8, 100);
+
+        // Lading visualisatie
+        const chargeHeight = chargeLevel * 90;
+        if (chargeHeight > 0) {
+            // Positieve plaat (links)
+            const gradient = this.ctx.createLinearGradient(x, y + 100 - chargeHeight, x, y + 100);
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(1, '#ff6b6b88');
+            this.ctx.fillStyle = gradient;
+            this.ctx.fillRect(x + 1, y + 100 - chargeHeight, 6, chargeHeight);
+
+            // Negatieve plaat (rechts)
+            const gradient2 = this.ctx.createLinearGradient(x + 40, y + 100 - chargeHeight, x + 40, y + 100);
+            gradient2.addColorStop(0, '#4ecdc4');
+            gradient2.addColorStop(1, '#4ecdc488');
+            this.ctx.fillStyle = gradient2;
+            this.ctx.fillRect(x + 41, y + 100 - chargeHeight, 6, chargeHeight);
+        }
+
+        // + en - symbolen
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 16px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('+', x + 4, y - 10);
+        this.ctx.fillText('-', x + 44, y - 10);
+
+        // Spanning weergave
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.font = 'bold 14px Segoe UI';
+        this.ctx.fillText(`${this.currentVoltage.toFixed(1)}V`, x + 24, y + 120);
+
+        // Label
+        this.ctx.fillStyle = '#a0aec0';
+        this.ctx.font = '11px Segoe UI';
+        this.ctx.fillText('C', x + 24, y + 140);
+    }
+
+    animate() {
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.animate());
+    }
+
+    getCurrentVoltage() {
+        return this.currentVoltage;
+    }
+
+    getChargePercent() {
+        return (this.currentVoltage / this.maxVoltage) * 100;
+    }
+}
+
+// Export
+window.OhmCircuitSimulator = OhmCircuitSimulator;
+window.LEDSimulator = LEDSimulator;
+window.SeriesCircuitSimulator = SeriesCircuitSimulator;
+window.ParallelCircuitSimulator = ParallelCircuitSimulator;
+window.CapacitorSimulator = CapacitorSimulator;
+// ============================================
+// ElektroLab - Circuit Builder Module
+// Drag & drop circuit bouwen
+// ============================================
+
+class CircuitBuilder {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.components = [];
+        this.wires = [];
+        this.selectedComponent = null;
+        this.dragging = false;
+        this.dragOffset = { x: 0, y: 0 };
+        this.isSimulating = false;
+        this.gridSize = 20;
+        this.electrons = [];
+
+        this.setupEventListeners();
+        this.draw();
+    }
+
+    setupEventListeners() {
+        // Canvas events
+        this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        this.canvas.addEventListener('mouseup', () => this.handleMouseUp());
+        this.canvas.addEventListener('dblclick', (e) => this.handleDoubleClick(e));
+
+        // Drag and drop van palette
+        const palette = document.querySelectorAll('.palette-component');
+        palette.forEach(comp => {
+            comp.addEventListener('dragstart', (e) => this.handleDragStart(e));
+        });
+
+        this.canvas.addEventListener('dragover', (e) => e.preventDefault());
+        this.canvas.addEventListener('drop', (e) => this.handleDrop(e));
+
+        // Control buttons
+        const clearBtn = document.getElementById('builder-clear');
+        const simBtn = document.getElementById('builder-simulate');
+        const stopBtn = document.getElementById('builder-stop');
+
+        if (clearBtn) clearBtn.addEventListener('click', () => this.clear());
+        if (simBtn) simBtn.addEventListener('click', () => this.startSimulation());
+        if (stopBtn) stopBtn.addEventListener('click', () => this.stopSimulation());
+
+        // Preset buttons
+        const presetBtns = document.querySelectorAll('.preset-btn');
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.loadPreset(btn.dataset.preset));
+        });
+    }
+
+    handleDragStart(e) {
+        e.dataTransfer.setData('component-type', e.target.dataset.type);
+    }
+
+    handleDrop(e) {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('component-type');
+        const rect = this.canvas.getBoundingClientRect();
+        const x = this.snapToGrid(e.clientX - rect.left);
+        const y = this.snapToGrid(e.clientY - rect.top);
+
+        this.addComponent(type, x, y);
+    }
+
+    handleMouseDown(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Check of we op een component klikken
+        const component = this.getComponentAt(x, y);
+        if (component) {
+            this.selectedComponent = component;
+            this.dragging = true;
+            this.dragOffset = {
+                x: x - component.x,
+                y: y - component.y
+            };
+            this.updatePropertyPanel(component);
+        } else {
+            this.selectedComponent = null;
+            this.updatePropertyPanel(null);
+        }
+
+        this.draw();
+    }
+
+    handleMouseMove(e) {
+        if (!this.dragging || !this.selectedComponent) return;
+
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left - this.dragOffset.x;
+        const y = e.clientY - rect.top - this.dragOffset.y;
+
+        this.selectedComponent.x = this.snapToGrid(x);
+        this.selectedComponent.y = this.snapToGrid(y);
+
+        this.draw();
+    }
+
+    handleMouseUp() {
+        this.dragging = false;
+    }
+
+    handleDoubleClick(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const component = this.getComponentAt(x, y);
+        if (component && component.type === 'switch') {
+            component.closed = !component.closed;
+            this.draw();
+        }
+    }
+
+    snapToGrid(value) {
+        return Math.round(value / this.gridSize) * this.gridSize;
+    }
+
+    getComponentAt(x, y) {
+        for (let i = this.components.length - 1; i >= 0; i--) {
+            const comp = this.components[i];
+            const bounds = this.getComponentBounds(comp);
+
+            if (x >= bounds.x && x <= bounds.x + bounds.width &&
+                y >= bounds.y && y <= bounds.y + bounds.height) {
+                return comp;
+            }
+        }
+        return null;
+    }
+
+    getComponentBounds(comp) {
+        const sizes = {
+            battery: { width: 60, height: 80 },
+            resistor: { width: 80, height: 30 },
+            led: { width: 40, height: 40 },
+            capacitor: { width: 50, height: 60 },
+            switch: { width: 60, height: 30 },
+            wire: { width: 80, height: 10 }
+        };
+
+        const size = sizes[comp.type] || { width: 40, height: 40 };
+        return {
+            x: comp.x - size.width / 2,
+            y: comp.y - size.height / 2,
+            width: size.width,
+            height: size.height
+        };
+    }
+
+    addComponent(type, x, y) {
+        const component = {
+            id: Date.now(),
+            type: type,
+            x: x,
+            y: y,
+            rotation: 0,
+            value: this.getDefaultValue(type),
+            closed: type === 'switch' ? false : undefined
+        };
+
+        this.components.push(component);
+        this.selectedComponent = component;
+        this.updatePropertyPanel(component);
+        this.draw();
+    }
+
+    getDefaultValue(type) {
+        switch (type) {
+            case 'battery': return 9; // Volt
+            case 'resistor': return 1000; // Ohm
+            case 'led': return 2.0; // Forward voltage
+            case 'capacitor': return 100; // µF
+            default: return 0;
+        }
+    }
+
+    updatePropertyPanel(component) {
+        const panel = document.getElementById('property-panel');
+        if (!panel) return;
+
+        if (!component) {
+            panel.innerHTML = '<p class="no-selection">Selecteer een component om eigenschappen te bewerken</p>';
+            return;
+        }
+
+        let html = `<div class="property-item">
+            <strong>Type:</strong> ${this.getTypeName(component.type)}
+        </div>`;
+
+        if (component.type === 'battery') {
+            html += `
+                <div class="property-item">
+                    <label>Spanning (V):</label>
+                    <input type="number" id="prop-value" value="${component.value}" min="0" max="24" step="0.5">
+                </div>`;
+        } else if (component.type === 'resistor') {
+            html += `
+                <div class="property-item">
+                    <label>Weerstand (Ω):</label>
+                    <input type="number" id="prop-value" value="${component.value}" min="1" max="100000" step="10">
+                </div>`;
+        } else if (component.type === 'capacitor') {
+            html += `
+                <div class="property-item">
+                    <label>Capaciteit (µF):</label>
+                    <input type="number" id="prop-value" value="${component.value}" min="1" max="10000" step="10">
+                </div>`;
+        } else if (component.type === 'switch') {
+            html += `
+                <div class="property-item">
+                    <label>Status:</label>
+                    <span>${component.closed ? 'Gesloten' : 'Open'}</span>
+                    <button id="toggle-switch" class="small-btn">Schakel</button>
+                </div>`;
+        }
+
+        html += `
+            <div class="property-item">
+                <button id="rotate-btn" class="small-btn">Roteren</button>
+                <button id="delete-btn" class="small-btn danger">Verwijderen</button>
+            </div>`;
+
+        panel.innerHTML = html;
+
+        // Event listeners voor property panel
+        const valueInput = document.getElementById('prop-value');
+        if (valueInput) {
+            valueInput.addEventListener('change', () => {
+                component.value = parseFloat(valueInput.value);
+                this.draw();
+            });
+        }
+
+        const toggleBtn = document.getElementById('toggle-switch');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                component.closed = !component.closed;
+                this.updatePropertyPanel(component);
+                this.draw();
+            });
+        }
+
+        const rotateBtn = document.getElementById('rotate-btn');
+        if (rotateBtn) {
+            rotateBtn.addEventListener('click', () => {
+                component.rotation = (component.rotation + 90) % 360;
+                this.draw();
+            });
+        }
+
+        const deleteBtn = document.getElementById('delete-btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                this.components = this.components.filter(c => c.id !== component.id);
+                this.selectedComponent = null;
+                this.updatePropertyPanel(null);
+                this.draw();
+            });
+        }
+    }
+
+    getTypeName(type) {
+        const names = {
+            battery: 'Batterij',
+            resistor: 'Weerstand',
+            led: 'LED',
+            capacitor: 'Condensator',
+            switch: 'Schakelaar',
+            wire: 'Draad'
+        };
+        return names[type] || type;
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Teken grid
+        this.drawGrid();
+
+        // Teken componenten
+        this.components.forEach(comp => {
+            this.drawComponent(comp);
+        });
+
+        // Teken selectie indicator
+        if (this.selectedComponent) {
+            const bounds = this.getComponentBounds(this.selectedComponent);
+            this.ctx.strokeStyle = '#4ecdc4';
+            this.ctx.lineWidth = 2;
+            this.ctx.setLineDash([5, 5]);
+            this.ctx.strokeRect(bounds.x - 5, bounds.y - 5, bounds.width + 10, bounds.height + 10);
+            this.ctx.setLineDash([]);
+        }
+
+        // Teken elektronen als simulatie loopt
+        if (this.isSimulating) {
+            this.drawElectrons();
+        }
+    }
+
+    drawGrid() {
+        this.ctx.strokeStyle = '#2d3748';
+        this.ctx.lineWidth = 1;
+
+        for (let x = 0; x <= this.canvas.width; x += this.gridSize) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, 0);
+            this.ctx.lineTo(x, this.canvas.height);
+            this.ctx.stroke();
+        }
+
+        for (let y = 0; y <= this.canvas.height; y += this.gridSize) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.canvas.width, y);
+            this.ctx.stroke();
+        }
+    }
+
+    drawComponent(comp) {
+        this.ctx.save();
+        this.ctx.translate(comp.x, comp.y);
+        this.ctx.rotate(comp.rotation * Math.PI / 180);
+
+        switch (comp.type) {
+            case 'battery':
+                this.drawBattery(comp);
+                break;
+            case 'resistor':
+                this.drawResistor(comp);
+                break;
+            case 'led':
+                this.drawLED(comp);
+                break;
+            case 'capacitor':
+                this.drawCapacitor(comp);
+                break;
+            case 'switch':
+                this.drawSwitch(comp);
+                break;
+            case 'wire':
+                this.drawWire(comp);
+                break;
+        }
+
+        this.ctx.restore();
+    }
+
+    drawBattery(comp) {
+        // Body
+        this.ctx.fillStyle = '#ffd93d';
+        this.ctx.fillRect(-30, -40, 60, 80);
+
+        // Tip
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(-10, -50, 20, 10);
+
+        // + en -
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = 'bold 16px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('+', 0, -15);
+        this.ctx.fillText('-', 0, 25);
+
+        // Waarde
+        this.ctx.fillStyle = '#1a202c';
+        this.ctx.font = '12px Segoe UI';
+        this.ctx.fillText(`${comp.value}V`, 0, 5);
+
+        // Connectoren
+        this.ctx.fillStyle = '#4a5568';
+        this.ctx.beginPath();
+        this.ctx.arc(0, -50, 5, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(0, 40, 5, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+
+    drawResistor(comp) {
+        // Zigzag
+        this.ctx.strokeStyle = '#a0aec0';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(-40, 0);
+
+        const segments = 5;
+        const width = 60;
+        const height = 12;
+
+        for (let i = 0; i < segments; i++) {
+            const x = -30 + (width / segments) * (i + 0.5);
+            const y = (i % 2 === 0) ? -height : height;
+            this.ctx.lineTo(x, y);
+        }
+        this.ctx.lineTo(40, 0);
+        this.ctx.stroke();
+
+        // Waarde label
+        const displayValue = comp.value >= 1000 ?
+            `${(comp.value / 1000).toFixed(1)}kΩ` : `${comp.value}Ω`;
+
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = '10px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(displayValue, 0, 25);
+
+        // Connectoren
+        this.ctx.fillStyle = '#4a5568';
+        this.ctx.beginPath();
+        this.ctx.arc(-40, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(40, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+
+    drawLED(comp) {
+        // LED body
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 15, 0, Math.PI * 2);
+        this.ctx.fillStyle = this.isSimulating ? '#ff6b6b' : '#8b2525';
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#666';
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+
+        // Glow als simulatie loopt
+        if (this.isSimulating) {
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, 25, 0, Math.PI * 2);
+            const gradient = this.ctx.createRadialGradient(0, 0, 10, 0, 0, 25);
+            gradient.addColorStop(0, 'rgba(255, 107, 107, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 107, 107, 0)');
+            this.ctx.fillStyle = gradient;
+            this.ctx.fill();
+        }
+
+        // Diode symbool
+        this.ctx.strokeStyle = '#fff';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(-8, -8);
+        this.ctx.lineTo(8, 0);
+        this.ctx.lineTo(-8, 8);
+        this.ctx.closePath();
+        this.ctx.stroke();
+
+        // Connectoren
+        this.ctx.fillStyle = '#4a5568';
+        this.ctx.beginPath();
+        this.ctx.arc(0, -20, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(0, 20, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+
+    drawCapacitor(comp) {
+        // Platen
+        this.ctx.fillStyle = '#718096';
+        this.ctx.fillRect(-20, -25, 6, 50);
+        this.ctx.fillRect(14, -25, 6, 50);
+
+        // + en - symbolen
+        this.ctx.fillStyle = '#f0f6fc';
+        this.ctx.font = 'bold 12px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('+', -17, -30);
+        this.ctx.fillText('-', 17, -30);
+
+        // Waarde
+        this.ctx.font = '10px Segoe UI';
+        this.ctx.fillText(`${comp.value}µF`, 0, 40);
+
+        // Connectoren
+        this.ctx.fillStyle = '#4a5568';
+        this.ctx.beginPath();
+        this.ctx.arc(-17, -30, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(17, 30, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+
+    drawSwitch(comp) {
+        // Basis lijn
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 4;
+        this.ctx.beginPath();
+        this.ctx.moveTo(-30, 0);
+        this.ctx.lineTo(-10, 0);
+        this.ctx.stroke();
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(10, 0);
+        this.ctx.lineTo(30, 0);
+        this.ctx.stroke();
+
+        // Schakelaar arm
+        this.ctx.strokeStyle = comp.closed ? '#4ecdc4' : '#a0aec0';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(-10, 0);
+        if (comp.closed) {
+            this.ctx.lineTo(10, 0);
+        } else {
+            this.ctx.lineTo(5, -15);
+        }
+        this.ctx.stroke();
+
+        // Contact punten
+        this.ctx.fillStyle = '#4a5568';
+        this.ctx.beginPath();
+        this.ctx.arc(-10, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(10, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Status label
+        this.ctx.fillStyle = '#a0aec0';
+        this.ctx.font = '10px Segoe UI';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(comp.closed ? 'AAN' : 'UIT', 0, 20);
+    }
+
+    drawWire(comp) {
+        this.ctx.strokeStyle = '#4a5568';
+        this.ctx.lineWidth = 4;
+        this.ctx.lineCap = 'round';
+        this.ctx.beginPath();
+        this.ctx.moveTo(-40, 0);
+        this.ctx.lineTo(40, 0);
+        this.ctx.stroke();
+
+        // Connectoren
+        this.ctx.fillStyle = '#4ecdc4';
+        this.ctx.beginPath();
+        this.ctx.arc(-40, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.arc(40, 0, 4, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+
+    drawElectrons() {
+        this.electrons.forEach(e => {
+            this.ctx.beginPath();
+            this.ctx.arc(e.x, e.y, 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4ecdc4';
+            this.ctx.fill();
+
+            // Simple movement along x
+            e.x += e.vx;
+            if (e.x > this.canvas.width) e.x = 0;
+            if (e.x < 0) e.x = this.canvas.width;
+        });
+    }
+
+    clear() {
+        this.components = [];
+        this.selectedComponent = null;
+        this.stopSimulation();
+        this.updatePropertyPanel(null);
+        this.draw();
+    }
+
+    startSimulation() {
+        this.isSimulating = true;
+
+        // Creëer elektronen
+        this.electrons = [];
+        for (let i = 0; i < 20; i++) {
+            this.electrons.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                vx: 2 + Math.random() * 2
+            });
+        }
+
+        this.animateSimulation();
+    }
+
+    stopSimulation() {
+        this.isSimulating = false;
+        this.electrons = [];
+        this.draw();
+    }
+
+    animateSimulation() {
+        if (!this.isSimulating) return;
+        this.draw();
+        requestAnimationFrame(() => this.animateSimulation());
+    }
+
+    loadPreset(presetName) {
+        this.clear();
+
+        switch (presetName) {
+            case 'simple-led':
+                this.components = [
+                    { id: 1, type: 'battery', x: 100, y: 250, rotation: 0, value: 9 },
+                    { id: 2, type: 'resistor', x: 300, y: 100, rotation: 0, value: 330 },
+                    { id: 3, type: 'led', x: 500, y: 250, rotation: 0, value: 2.0 }
+                ];
+                break;
+
+            case 'series-leds':
+                this.components = [
+                    { id: 1, type: 'battery', x: 80, y: 250, rotation: 0, value: 9 },
+                    { id: 2, type: 'resistor', x: 200, y: 100, rotation: 0, value: 100 },
+                    { id: 3, type: 'led', x: 350, y: 100, rotation: 90, value: 2.0 },
+                    { id: 4, type: 'led', x: 450, y: 100, rotation: 90, value: 2.0 },
+                    { id: 5, type: 'led', x: 550, y: 100, rotation: 90, value: 2.0 }
+                ];
+                break;
+
+            case 'parallel-leds':
+                this.components = [
+                    { id: 1, type: 'battery', x: 80, y: 250, rotation: 0, value: 5 },
+                    { id: 2, type: 'resistor', x: 300, y: 120, rotation: 0, value: 150 },
+                    { id: 3, type: 'led', x: 450, y: 120, rotation: 0, value: 2.0 },
+                    { id: 4, type: 'resistor', x: 300, y: 250, rotation: 0, value: 150 },
+                    { id: 5, type: 'led', x: 450, y: 250, rotation: 0, value: 2.0 },
+                    { id: 6, type: 'resistor', x: 300, y: 380, rotation: 0, value: 150 },
+                    { id: 7, type: 'led', x: 450, y: 380, rotation: 0, value: 2.0 }
+                ];
+                break;
+
+            case 'rc-circuit':
+                this.components = [
+                    { id: 1, type: 'battery', x: 80, y: 250, rotation: 0, value: 9 },
+                    { id: 2, type: 'switch', x: 200, y: 100, rotation: 0, closed: false },
+                    { id: 3, type: 'resistor', x: 350, y: 100, rotation: 0, value: 10000 },
+                    { id: 4, type: 'capacitor', x: 500, y: 250, rotation: 0, value: 100 }
+                ];
+                break;
+        }
+
+        this.draw();
+    }
+}
+
+// Initialiseer builder wanneer DOM geladen is
+document.addEventListener('DOMContentLoaded', () => {
+    // Builder wordt later geïnitialiseerd door app.js
+});
+
+// Export
+window.CircuitBuilder = CircuitBuilder;
+// ============================================
+// ElektroLab - Main Application
+// Initialisatie en navigatie
+// ============================================
+
+// Globale variabelen voor simulators
+let introAnimation;
+let waterAnimation;
+let electronAnimation;
+let ohmCircuitSim;
+let ledSim;
+let seriesSim;
+let parallelSim;
+let capacitorSim;
+let chargeCurveAnim;
+let circuitBuilder;
+
+// Voortgang bijhouden
+let completedLessons = new Set();
+const totalLessons = 6;
+
+// Navigatie functie
+function navigateToLesson(lessonId) {
+    // Verberg alle lessen
+    document.querySelectorAll('.lesson').forEach(lesson => {
+        lesson.style.display = 'none';
+    });
+
+    // Toon geselecteerde les
+    const targetLesson = document.getElementById(`lesson-${lessonId}`);
+    if (targetLesson) {
+        targetLesson.style.display = 'block';
+    }
+
+    // Update navigatie menu
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.lesson === lessonId) {
+            item.classList.add('active');
+        }
+    });
+
+    // Markeer les als voltooid (behalve intro)
+    if (lessonId !== 'intro') {
+        completedLessons.add(lessonId);
+        updateProgress();
+    }
+
+    // Initialiseer simulators voor deze les
+    initializeLessonSimulators(lessonId);
+}
+
+// Voortgang updaten
+function updateProgress() {
+    const progress = (completedLessons.size / totalLessons) * 100;
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+
+    if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+    }
+    if (progressText) {
+        progressText.textContent = `${Math.round(progress)}% voltooid`;
+    }
+}
+
+// Initialiseer simulators per les
+function initializeLessonSimulators(lessonId) {
+    switch (lessonId) {
+        case 'intro':
+            if (!introAnimation) {
+                introAnimation = new IntroAnimation('intro-canvas');
+            }
+            break;
+
+        case 'basics':
+            if (!waterAnimation) {
+                waterAnimation = new WaterAnalogyAnimation('water-canvas');
+            }
+            if (!electronAnimation) {
+                electronAnimation = new ElectronAnimation('electron-canvas');
+            }
+            break;
+
+        case 'ohm':
+            if (!ohmCircuitSim) {
+                ohmCircuitSim = new OhmCircuitSimulator('ohm-circuit-canvas');
+            }
+            break;
+
+        case 'led':
+            if (!ledSim) {
+                ledSim = new LEDSimulator('led-canvas');
+            }
+            break;
+
+        case 'series-parallel':
+            if (!seriesSim) {
+                seriesSim = new SeriesCircuitSimulator('series-canvas');
+            }
+            if (!parallelSim) {
+                parallelSim = new ParallelCircuitSimulator('parallel-canvas');
+            }
+            drawSimpleDiagrams();
+            break;
+
+        case 'capacitor':
+            if (!chargeCurveAnim) {
+                chargeCurveAnim = new ChargeCurveAnimation('charge-curve-canvas');
+            }
+            if (!capacitorSim) {
+                capacitorSim = new CapacitorSimulator('capacitor-canvas');
+            }
+            break;
+
+        case 'builder':
+            if (!circuitBuilder) {
+                circuitBuilder = new CircuitBuilder('builder-canvas');
+            }
+            break;
+    }
+}
+
+// Simpele circuit diagrammen tekenen
+function drawSimpleDiagrams() {
+    // Serie diagram
+    const seriesCanvas = document.getElementById('series-diagram');
+    if (seriesCanvas) {
+        const ctx = seriesCanvas.getContext('2d');
+        ctx.clearRect(0, 0, 300, 150);
+
+        ctx.strokeStyle = '#4a5568';
+        ctx.lineWidth = 3;
+
+        // Circuit lijn
+        ctx.beginPath();
+        ctx.moveTo(20, 75);
+        ctx.lineTo(280, 75);
+        ctx.stroke();
+
+        // Weerstanden
+        ctx.fillStyle = '#a0aec0';
+        ctx.fillRect(60, 65, 40, 20);
+        ctx.fillRect(130, 65, 40, 20);
+        ctx.fillRect(200, 65, 40, 20);
+
+        // Labels
+        ctx.fillStyle = '#f0f6fc';
+        ctx.font = '12px Segoe UI';
+        ctx.textAlign = 'center';
+        ctx.fillText('R₁', 80, 60);
+        ctx.fillText('R₂', 150, 60);
+        ctx.fillText('R₃', 220, 60);
+
+        // Stroom pijl
+        ctx.fillStyle = '#4ecdc4';
+        ctx.beginPath();
+        ctx.moveTo(150, 100);
+        ctx.lineTo(170, 100);
+        ctx.lineTo(165, 95);
+        ctx.moveTo(170, 100);
+        ctx.lineTo(165, 105);
+        ctx.stroke();
+        ctx.fillText('I', 160, 120);
+    }
+
+    // Parallel diagram
+    const parallelCanvas = document.getElementById('parallel-diagram');
+    if (parallelCanvas) {
+        const ctx = parallelCanvas.getContext('2d');
+        ctx.clearRect(0, 0, 300, 150);
+
+        ctx.strokeStyle = '#4a5568';
+        ctx.lineWidth = 3;
+
+        // Verticale lijnen
+        ctx.beginPath();
+        ctx.moveTo(50, 20);
+        ctx.lineTo(50, 130);
+        ctx.moveTo(250, 20);
+        ctx.lineTo(250, 130);
+        ctx.stroke();
+
+        // Horizontale takken
+        ctx.beginPath();
+        ctx.moveTo(50, 35);
+        ctx.lineTo(250, 35);
+        ctx.moveTo(50, 75);
+        ctx.lineTo(250, 75);
+        ctx.moveTo(50, 115);
+        ctx.lineTo(250, 115);
+        ctx.stroke();
+
+        // Weerstanden
+        ctx.fillStyle = '#a0aec0';
+        ctx.fillRect(130, 27, 40, 16);
+        ctx.fillRect(130, 67, 40, 16);
+        ctx.fillRect(130, 107, 40, 16);
+
+        // Labels
+        ctx.fillStyle = '#f0f6fc';
+        ctx.font = '11px Segoe UI';
+        ctx.textAlign = 'center';
+        ctx.fillText('R₁', 150, 24);
+        ctx.fillText('R₂', 150, 64);
+        ctx.fillText('R₃', 150, 104);
+    }
+}
+
+// Ohm Calculator functie
+function calculateOhm(target) {
+    const vInput = document.getElementById('calc-voltage');
+    const iInput = document.getElementById('calc-current');
+    const rInput = document.getElementById('calc-resistance');
+    const result = document.getElementById('ohm-calc-result');
+
+    const v = parseFloat(vInput.value);
+    const i = parseFloat(iInput.value) / 1000; // mA naar A
+    const r = parseFloat(rInput.value);
+
+    let calculated;
+    let unit;
+    let resultValue;
+
+    switch (target) {
+        case 'v':
+            if (isNaN(i) || isNaN(r)) {
+                result.innerHTML = '<span style="color: #ff6b6b;">Vul stroom en weerstand in!</span>';
+                return;
+            }
+            calculated = i * r;
+            unit = 'V';
+            vInput.value = calculated.toFixed(2);
+            resultValue = `Spanning = ${calculated.toFixed(2)}V`;
+            break;
+
+        case 'i':
+            if (isNaN(v) || isNaN(r)) {
+                result.innerHTML = '<span style="color: #ff6b6b;">Vul spanning en weerstand in!</span>';
+                return;
+            }
+            calculated = (v / r) * 1000;
+            unit = 'mA';
+            iInput.value = calculated.toFixed(2);
+            resultValue = `Stroom = ${calculated.toFixed(2)}mA`;
+            break;
+
+        case 'r':
+            if (isNaN(v) || isNaN(i) || i === 0) {
+                result.innerHTML = '<span style="color: #ff6b6b;">Vul spanning en stroom in!</span>';
+                return;
+            }
+            calculated = v / i;
+            unit = 'Ω';
+            rInput.value = calculated.toFixed(0);
+            resultValue = `Weerstand = ${calculated.toFixed(0)}Ω`;
+            break;
+    }
+
+    result.innerHTML = `<span class="highlight">${resultValue}</span>`;
+}
+
+// LED calculator functie
+function calculateLEDResistor() {
+    const sourceV = parseFloat(document.getElementById('led-source-voltage').value);
+    const ledSelect = document.getElementById('led-color');
+    const ledV = parseFloat(ledSelect.value);
+    const ledI = parseFloat(document.getElementById('led-current').value) / 1000;
+
+    const resistance = (sourceV - ledV) / ledI;
+    const resultEl = document.getElementById('led-resistor-result');
+    const nearestEl = document.getElementById('led-nearest-value');
+
+    if (resistance <= 0) {
+        resultEl.textContent = 'Te laag!';
+        nearestEl.textContent = '(verhoog bronspanning)';
+        return;
+    }
+
+    // Standaard weerstandswaarden (E12 serie)
+    const standardValues = [10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82,
+        100, 120, 150, 180, 220, 270, 330, 390, 470, 560, 680, 820,
+        1000, 1200, 1500, 1800, 2200, 2700, 3300, 3900, 4700, 5600, 6800, 8200, 10000];
+
+    // Vind dichtstbijzijnde hogere standaardwaarde
+    let nearest = standardValues.find(v => v >= resistance) || standardValues[standardValues.length - 1];
+
+    resultEl.textContent = `${Math.round(resistance)}Ω`;
+    nearestEl.textContent = `(gebruik ${nearest}Ω)`;
+}
+
+// DOM geladen
+document.addEventListener('DOMContentLoaded', () => {
+    // Navigatie event listeners
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            navigateToLesson(item.dataset.lesson);
+        });
+    });
+
+    // Initialiseer intro animatie
+    initializeLessonSimulators('intro');
+
+    // Basics les controls
+    setupBasicsControls();
+
+    // Ohm les controls
+    setupOhmControls();
+
+    // LED les controls
+    setupLEDControls();
+
+    // Series/Parallel les controls
+    setupSeriesParallelControls();
+
+    // Capacitor les controls
+    setupCapacitorControls();
+
+    // Ohm Triangle interactie
+    setupOhmTriangle();
+});
+
+// Setup functies voor elke les
+function setupBasicsControls() {
+    // Voltage slider
+    const voltageSlider = document.getElementById('voltage-slider');
+    const voltageValue = document.getElementById('voltage-value');
+    const resistanceSlider = document.getElementById('resistance-slider');
+    const resistanceValue = document.getElementById('resistance-value');
+    const currentValue = document.getElementById('current-value');
+
+    if (voltageSlider) {
+        voltageSlider.addEventListener('input', () => {
+            const v = voltageSlider.value;
+            voltageValue.textContent = `${v}V`;
+            if (waterAnimation) {
+                waterAnimation.setVoltage(parseInt(v));
+            }
+            updateBasicsCurrent();
+        });
+    }
+
+    if (resistanceSlider) {
+        resistanceSlider.addEventListener('input', () => {
+            const r = resistanceSlider.value;
+            resistanceValue.textContent = `${r}Ω`;
+            if (waterAnimation) {
+                waterAnimation.setResistance(parseInt(r));
+            }
+            updateBasicsCurrent();
+        });
+    }
+
+    function updateBasicsCurrent() {
+        if (!voltageSlider || !resistanceSlider || !currentValue) return;
+        const v = parseFloat(voltageSlider.value);
+        const r = parseFloat(resistanceSlider.value);
+        const i = (v / r * 1000).toFixed(1);
+        currentValue.textContent = `${i}mA`;
+    }
+
+    // Electron animation controls
+    const playBtn = document.getElementById('electron-play');
+    const pauseBtn = document.getElementById('electron-pause');
+    const speedUpBtn = document.getElementById('electron-speed-up');
+    const slowDownBtn = document.getElementById('electron-slow-down');
+
+    if (playBtn) {
+        playBtn.addEventListener('click', () => {
+            if (electronAnimation) electronAnimation.start();
+        });
+    }
+
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+            if (electronAnimation) electronAnimation.stop();
+        });
+    }
+
+    if (speedUpBtn) {
+        speedUpBtn.addEventListener('click', () => {
+            if (electronAnimation) {
+                electronAnimation.speed = Math.min(electronAnimation.speed + 1, 10);
+            }
+        });
+    }
+
+    if (slowDownBtn) {
+        slowDownBtn.addEventListener('click', () => {
+            if (electronAnimation) {
+                electronAnimation.speed = Math.max(electronAnimation.speed - 1, 0.5);
+            }
+        });
+    }
+}
+
+function setupOhmControls() {
+    const ohmVoltage = document.getElementById('ohm-voltage');
+    const ohmResistance = document.getElementById('ohm-resistance');
+    const ohmVoltageDisplay = document.getElementById('ohm-voltage-display');
+    const ohmResistanceDisplay = document.getElementById('ohm-resistance-display');
+    const ohmCurrentDisplay = document.getElementById('ohm-current-display');
+    const ohmPowerDisplay = document.getElementById('ohm-power-display');
+
+    function updateOhmDisplays() {
+        if (!ohmVoltage || !ohmResistance) return;
+
+        const v = parseFloat(ohmVoltage.value);
+        const r = parseFloat(ohmResistance.value);
+        const i = v / r * 1000; // mA
+        const p = v * (v / r) * 1000; // mW
+
+        if (ohmVoltageDisplay) ohmVoltageDisplay.textContent = `${v}V`;
+        if (ohmResistanceDisplay) {
+            ohmResistanceDisplay.textContent = r >= 1000 ? `${(r/1000).toFixed(1)}kΩ` : `${r}Ω`;
+        }
+        if (ohmCurrentDisplay) ohmCurrentDisplay.textContent = `${i.toFixed(2)}mA`;
+        if (ohmPowerDisplay) ohmPowerDisplay.textContent = `${p.toFixed(1)}mW`;
+
+        if (ohmCircuitSim) {
+            ohmCircuitSim.setVoltage(v);
+            ohmCircuitSim.setResistance(r);
+        }
+    }
+
+    if (ohmVoltage) {
+        ohmVoltage.addEventListener('input', updateOhmDisplays);
+    }
+
+    if (ohmResistance) {
+        ohmResistance.addEventListener('input', updateOhmDisplays);
+    }
+}
+
+function setupOhmTriangle() {
+    const triangleResult = document.getElementById('triangle-result');
+    const clickableAreas = document.querySelectorAll('.clickable-area');
+
+    clickableAreas.forEach(area => {
+        area.addEventListener('click', () => {
+            const calc = area.dataset.calc;
+            let formula = '';
+
+            switch (calc) {
+                case 'v':
+                    formula = 'Om <strong>V</strong> te vinden: V = I × R';
+                    break;
+                case 'i':
+                    formula = 'Om <strong>I</strong> te vinden: I = V ÷ R';
+                    break;
+                case 'r':
+                    formula = 'Om <strong>R</strong> te vinden: R = V ÷ I';
+                    break;
+            }
+
+            if (triangleResult) {
+                triangleResult.innerHTML = formula;
+            }
+        });
+    });
+}
+
+function setupLEDControls() {
+    // LED Calculator
+    const ledSourceV = document.getElementById('led-source-voltage');
+    const ledColor = document.getElementById('led-color');
+    const ledCurrent = document.getElementById('led-current');
+
+    [ledSourceV, ledColor, ledCurrent].forEach(el => {
+        if (el) {
+            el.addEventListener('input', calculateLEDResistor);
+            el.addEventListener('change', calculateLEDResistor);
+        }
+    });
+
+    // LED Simulator controls
+    const ledVoltageSlider = document.getElementById('led-voltage-slider');
+    const ledResistanceSlider = document.getElementById('led-resistance-slider');
+    const ledVoltageDisplay = document.getElementById('led-voltage-display');
+    const ledResistanceDisplay = document.getElementById('led-resistance-display');
+    const ledCurrentDisplay = document.getElementById('led-current-display');
+    const ledHealth = document.getElementById('led-health');
+
+    function updateLEDSim() {
+        if (!ledVoltageSlider || !ledResistanceSlider) return;
+
+        const v = parseFloat(ledVoltageSlider.value);
+        const r = parseFloat(ledResistanceSlider.value);
+
+        if (ledVoltageDisplay) ledVoltageDisplay.textContent = `${v}V`;
+        if (ledResistanceDisplay) ledResistanceDisplay.textContent = `${r}Ω`;
+
+        if (ledSim) {
+            ledSim.setVoltage(v);
+            ledSim.setResistance(r);
+
+            const current = ledSim.getCurrent();
+            if (ledCurrentDisplay) ledCurrentDisplay.textContent = `${current.toFixed(1)}mA`;
+
+            const status = ledSim.getLEDStatus();
+            if (ledHealth) {
+                ledHealth.textContent = status.text;
+                ledHealth.className = status.class;
+            }
+        }
+    }
+
+    if (ledVoltageSlider) {
+        ledVoltageSlider.addEventListener('input', updateLEDSim);
+    }
+
+    if (ledResistanceSlider) {
+        ledResistanceSlider.addEventListener('input', updateLEDSim);
+    }
+
+    // Initial calculation
+    calculateLEDResistor();
+}
+
+function setupSeriesParallelControls() {
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const targetTab = document.getElementById(btn.dataset.tab);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        });
+    });
+
+    // Series controls
+    ['series-r1', 'series-r2', 'series-r3'].forEach(id => {
+        const slider = document.getElementById(id);
+        if (slider) {
+            slider.addEventListener('input', () => {
+                const val = slider.value;
+                const display = document.getElementById(`${id}-val`);
+                if (display) display.textContent = `${val}Ω`;
+
+                if (seriesSim) {
+                    if (id === 'series-r1') seriesSim.setR1(parseInt(val));
+                    if (id === 'series-r2') seriesSim.setR2(parseInt(val));
+                    if (id === 'series-r3') seriesSim.setR3(parseInt(val));
+                }
+
+                updateSeriesResults();
+            });
+        }
+    });
+
+    // Parallel controls
+    ['parallel-r1', 'parallel-r2', 'parallel-r3'].forEach(id => {
+        const slider = document.getElementById(id);
+        if (slider) {
+            slider.addEventListener('input', () => {
+                const val = slider.value;
+                const display = document.getElementById(`${id}-val`);
+                if (display) display.textContent = `${val}Ω`;
+
+                if (parallelSim) {
+                    if (id === 'parallel-r1') parallelSim.setR1(parseInt(val));
+                    if (id === 'parallel-r2') parallelSim.setR2(parseInt(val));
+                    if (id === 'parallel-r3') parallelSim.setR3(parseInt(val));
+                }
+
+                updateParallelResults();
+            });
+        }
+    });
+
+    function updateSeriesResults() {
+        const r1 = parseInt(document.getElementById('series-r1')?.value || 200);
+        const r2 = parseInt(document.getElementById('series-r2')?.value || 300);
+        const r3 = parseInt(document.getElementById('series-r3')?.value || 500);
+
+        const totalR = r1 + r2 + r3;
+        const current = (9 / totalR * 1000).toFixed(1);
+
+        const totalREl = document.getElementById('series-total-r');
+        const currentEl = document.getElementById('series-current');
+
+        if (totalREl) totalREl.textContent = `${totalR}Ω`;
+        if (currentEl) currentEl.textContent = `${current}mA`;
+    }
+
+    function updateParallelResults() {
+        const r1 = parseInt(document.getElementById('parallel-r1')?.value || 200);
+        const r2 = parseInt(document.getElementById('parallel-r2')?.value || 300);
+        const r3 = parseInt(document.getElementById('parallel-r3')?.value || 500);
+
+        const totalR = 1 / (1/r1 + 1/r2 + 1/r3);
+        const current = (9 / totalR * 1000).toFixed(1);
+
+        const totalREl = document.getElementById('parallel-total-r');
+        const currentEl = document.getElementById('parallel-current');
+
+        if (totalREl) totalREl.textContent = `${totalR.toFixed(1)}Ω`;
+        if (currentEl) currentEl.textContent = `${current}mA`;
+    }
+}
+
+function setupCapacitorControls() {
+    // Charge curve controls
+    const capResistance = document.getElementById('cap-resistance');
+    const capCapacitance = document.getElementById('cap-capacitance');
+    const capRDisplay = document.getElementById('cap-r-display');
+    const capCDisplay = document.getElementById('cap-c-display');
+    const tauValue = document.getElementById('tau-value');
+
+    function updateTau() {
+        if (!capResistance || !capCapacitance) return;
+
+        const r = parseFloat(capResistance.value);
+        const c = parseFloat(capCapacitance.value);
+
+        if (capRDisplay) capRDisplay.textContent = `${r}kΩ`;
+        if (capCDisplay) capCDisplay.textContent = `${c}µF`;
+
+        const tau = (r * 1000) * (c / 1000000);
+        if (tauValue) tauValue.textContent = `${tau.toFixed(2)}s`;
+
+        if (chargeCurveAnim) {
+            chargeCurveAnim.setResistance(r);
+            chargeCurveAnim.setCapacitance(c);
+        }
+    }
+
+    if (capResistance) {
+        capResistance.addEventListener('input', updateTau);
+    }
+
+    if (capCapacitance) {
+        capCapacitance.addEventListener('input', updateTau);
+    }
+
+    // Capacitor simulator controls
+    const chargeBtn = document.getElementById('cap-charge-btn');
+    const dischargeBtn = document.getElementById('cap-discharge-btn');
+    const resetBtn = document.getElementById('cap-reset-btn');
+
+    if (chargeBtn) {
+        chargeBtn.addEventListener('click', () => {
+            if (capacitorSim) capacitorSim.charge();
+        });
+    }
+
+    if (dischargeBtn) {
+        dischargeBtn.addEventListener('click', () => {
+            if (capacitorSim) capacitorSim.discharge();
+        });
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (capacitorSim) capacitorSim.reset();
+        });
+    }
+
+    // Update capacitor status display
+    setInterval(() => {
+        if (capacitorSim) {
+            const voltage = capacitorSim.getCurrentVoltage();
+            const percent = capacitorSim.getChargePercent();
+
+            const voltageFill = document.getElementById('cap-voltage-fill');
+            const voltageVal = document.getElementById('cap-voltage-val');
+            const chargePercent = document.getElementById('cap-charge-percent');
+
+            if (voltageFill) voltageFill.style.width = `${percent}%`;
+            if (voltageVal) voltageVal.textContent = `${voltage.toFixed(1)}V`;
+            if (chargePercent) chargePercent.textContent = `${Math.round(percent)}%`;
+        }
+    }, 50);
+}
+
+// Maak navigatie functie globaal beschikbaar
+window.navigateToLesson = navigateToLesson;
+window.calculateOhm = calculateOhm;
+    </script>
+</body>
+</html>
